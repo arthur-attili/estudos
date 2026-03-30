@@ -1,0 +1,1642 @@
+<!DOCTYPE html>
+<html lang="pt-BR">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1.0">
+<title>Guias de Computação</title>
+<link href="https://fonts.googleapis.com/css2?family=DM+Serif+Display:ital@0;1&family=DM+Mono:wght@400;500&family=Inter:wght@300;400;500;600&display=swap" rel="stylesheet">
+<style>
+:root {
+  --bg:#0e0e10; --bg2:#16161a; --bg3:#1e1e24; --bg4:#26262e;
+  --border:rgba(255,255,255,0.08); --border2:rgba(255,255,255,0.15);
+  --text:#e8e6e0; --muted:#8a8880;
+  --accent:#6c63ff; --accent2:#a78bfa;
+  --teal:#2dd4bf; --amber:#f59e0b; --red:#f87171; --green:#4ade80; --pink:#f472b6;
+  --orange:#fb923c;
+}
+*{box-sizing:border-box;margin:0;padding:0;}
+html{scroll-behavior:smooth;}
+body{background:var(--bg);color:var(--text);font-family:'Inter',sans-serif;font-size:15px;line-height:1.75;min-height:100vh;}
+
+/* ── PAGE SYSTEM ── */
+.page{display:none;}
+.page.active{display:flex;min-height:100vh;}
+#home.active{display:block;}
+
+/* ─────────────────────────────────────
+   HOME PAGE
+───────────────────────────────────── */
+.home-wrap{min-height:100vh;display:flex;flex-direction:column;}
+
+.home-nav{
+  padding:24px 56px;display:flex;align-items:center;justify-content:space-between;
+  border-bottom:1px solid var(--border);
+}
+.home-nav .logo{
+  font-family:'DM Serif Display',serif;font-size:20px;color:#fff;
+}
+.home-nav .logo em{font-style:italic;color:var(--accent2);}
+.home-nav .tag{
+  font-size:11px;letter-spacing:.14em;text-transform:uppercase;
+  color:var(--muted);font-weight:500;
+}
+
+.home-hero{
+  flex:1;display:flex;flex-direction:column;align-items:center;
+  justify-content:center;padding:80px 40px 60px;text-align:center;
+  position:relative;overflow:hidden;
+}
+.home-hero::before{
+  content:'';position:absolute;top:50%;left:50%;transform:translate(-50%,-50%);
+  width:600px;height:600px;border-radius:50%;
+  background:radial-gradient(circle,rgba(108,99,255,.12) 0%,transparent 65%);
+  pointer-events:none;
+}
+.home-eyebrow{
+  font-size:11px;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--accent2);font-weight:500;margin-bottom:20px;
+}
+.home-title{
+  font-family:'DM Serif Display',serif;
+  font-size:clamp(44px,7vw,80px);line-height:1.0;
+  color:#fff;margin-bottom:20px;
+}
+.home-title em{font-style:italic;color:var(--accent2);}
+.home-sub{
+  font-size:17px;color:var(--muted);max-width:520px;
+  margin:0 auto 64px;font-weight:300;
+}
+
+/* ── SUBJECT CARDS ── */
+.cards-row{
+  display:grid;grid-template-columns:repeat(3,1fr);
+  gap:20px;max-width:960px;width:100%;margin:0 auto;position:relative;z-index:1;
+}
+
+.subject-card{
+  background:var(--bg2);border:1px solid var(--border);
+  border-radius:20px;padding:36px 32px;cursor:pointer;
+  transition:all .25s;text-align:left;position:relative;overflow:hidden;
+}
+.subject-card::before{
+  content:'';position:absolute;inset:0;border-radius:20px;
+  opacity:0;transition:opacity .25s;
+}
+.subject-card:hover{transform:translateY(-4px);border-color:var(--border2);}
+.subject-card:hover::before{opacity:1;}
+
+.sc-1::before{background:linear-gradient(135deg,rgba(108,99,255,.08),transparent);}
+.sc-2::before{background:linear-gradient(135deg,rgba(45,212,191,.08),transparent);}
+.sc-3::before{background:linear-gradient(135deg,rgba(167,139,250,.08),transparent);}
+.sc-1:hover{border-color:rgba(108,99,255,.4);}
+.sc-2:hover{border-color:rgba(45,212,191,.4);}
+.sc-3:hover{border-color:rgba(167,139,250,.4);}
+
+.sc-badge{
+  display:inline-block;font-size:10px;font-weight:600;
+  letter-spacing:.12em;text-transform:uppercase;padding:4px 12px;
+  border-radius:20px;margin-bottom:20px;
+}
+.sc-1 .sc-badge{background:rgba(108,99,255,.15);color:var(--accent2);}
+.sc-2 .sc-badge{background:rgba(45,212,191,.15);color:var(--teal);}
+.sc-3 .sc-badge{background:rgba(167,139,250,.15);color:var(--accent2);}
+
+.sc-icon{font-size:40px;margin-bottom:16px;display:block;}
+
+.sc-title{
+  font-family:'DM Serif Display',serif;font-size:24px;
+  color:#fff;margin-bottom:10px;line-height:1.15;
+}
+.sc-title em{font-style:italic;}
+
+.sc-desc{font-size:13px;color:var(--muted);margin-bottom:24px;line-height:1.6;}
+
+.sc-topics{display:flex;flex-wrap:wrap;gap:6px;margin-bottom:28px;}
+.sc-tag{
+  font-size:11px;background:var(--bg3);border:1px solid var(--border);
+  color:var(--muted);padding:3px 9px;border-radius:6px;
+}
+
+.sc-btn{
+  display:flex;align-items:center;gap:8px;
+  font-size:13px;font-weight:600;
+}
+.sc-1 .sc-btn{color:var(--accent2);}
+.sc-2 .sc-btn{color:var(--teal);}
+.sc-3 .sc-btn{color:var(--accent2);}
+.sc-btn .arrow{transition:transform .2s;}
+.subject-card:hover .arrow{transform:translateX(4px);}
+
+.home-footer{
+  padding:32px 56px;border-top:1px solid var(--border);
+  display:flex;align-items:center;justify-content:space-between;
+}
+.home-footer span{font-size:12px;color:var(--muted);}
+
+@media(max-width:800px){
+  .cards-row{grid-template-columns:1fr;}
+  .home-nav{padding:20px 24px;}
+  .home-footer{padding:24px;}
+}
+
+/* ─────────────────────────────────────
+   SUBJECT PAGE LAYOUT
+───────────────────────────────────── */
+#progress{position:fixed;top:0;left:0;right:0;height:2px;z-index:300;background:linear-gradient(90deg,var(--accent),var(--teal));transform-origin:left;transform:scaleX(0);}
+
+#sidebar-1,#sidebar-2,#sidebar-3{
+  width:270px;min-width:270px;background:var(--bg2);
+  border-right:1px solid var(--border);
+  position:fixed;top:0;left:0;bottom:0;overflow-y:auto;z-index:100;
+  display:none;flex-direction:column;
+}
+.page.active #sidebar-1,
+.page.active #sidebar-2,
+.page.active #sidebar-3{display:flex;}
+
+#sidebar-1::-webkit-scrollbar,
+#sidebar-2::-webkit-scrollbar,
+#sidebar-3::-webkit-scrollbar{width:3px;}
+#sidebar-1::-webkit-scrollbar-thumb,
+#sidebar-2::-webkit-scrollbar-thumb,
+#sidebar-3::-webkit-scrollbar-thumb{background:var(--bg4);}
+
+.sb-header{
+  padding:20px 20px 16px;border-bottom:1px solid var(--border);
+  position:sticky;top:0;background:var(--bg2);z-index:10;
+}
+.sb-back{
+  display:flex;align-items:center;gap:6px;
+  font-size:12px;color:var(--muted);cursor:pointer;
+  margin-bottom:14px;transition:color .15s;background:none;border:none;
+  font-family:'Inter',sans-serif;padding:0;
+}
+.sb-back:hover{color:var(--accent2);}
+.sb-subject-name{
+  font-family:'DM Serif Display',serif;font-size:17px;
+  color:#fff;line-height:1.2;margin-bottom:12px;
+}
+.sb-subject-name em{font-style:italic;color:var(--accent2);}
+.sb-search{
+  width:100%;background:var(--bg3);border:1px solid var(--border);
+  border-radius:8px;padding:7px 12px;color:var(--text);
+  font-family:'Inter',sans-serif;font-size:13px;outline:none;
+  transition:border-color .2s;
+}
+.sb-search:focus{border-color:var(--accent);}
+.sb-search::placeholder{color:var(--muted);}
+
+.sb-nav{padding:10px 0;flex:1;}
+.sb-cat{
+  font-size:9px;font-weight:600;letter-spacing:.18em;text-transform:uppercase;
+  color:var(--muted);padding:10px 20px 3px;
+}
+.sb-link{
+  display:flex;align-items:center;gap:8px;padding:7px 20px;
+  font-size:13px;color:var(--muted);text-decoration:none;cursor:pointer;
+  border-left:2px solid transparent;transition:all .15s;
+}
+.sb-link:hover{color:var(--text);background:rgba(255,255,255,.03);border-left-color:var(--border2);}
+.sb-link.active{color:var(--accent2);background:rgba(108,99,255,.06);border-left-color:var(--accent2);}
+.sb-dot{width:5px;height:5px;border-radius:50%;flex-shrink:0;}
+
+.subject-main{
+  margin-left:270px;flex:1;
+}
+.container{max-width:860px;padding:0 48px;}
+
+/* ── SUBJECT HERO ── */
+.s-hero{
+  padding:72px 48px 56px;max-width:860px;
+  border-bottom:1px solid var(--border);position:relative;overflow:hidden;
+}
+.s-hero::before{
+  content:'';position:absolute;top:-80px;right:-80px;
+  width:380px;height:380px;border-radius:50%;
+  background:radial-gradient(circle,rgba(108,99,255,.18) 0%,transparent 70%);
+  pointer-events:none;
+}
+.s-hero-label{font-size:11px;letter-spacing:.14em;text-transform:uppercase;color:var(--accent2);font-weight:500;margin-bottom:12px;}
+.s-hero h1{font-family:'DM Serif Display',serif;font-size:clamp(38px,5vw,62px);line-height:1.05;color:#fff;margin-bottom:14px;}
+.s-hero h1 em{font-style:italic;color:var(--accent2);}
+.s-hero p{font-size:16px;color:var(--muted);max-width:560px;margin-bottom:28px;font-weight:300;}
+.s-chips{display:flex;flex-wrap:wrap;gap:8px;}
+.s-chip{background:var(--bg3);border:1px solid var(--border);padding:4px 13px;border-radius:20px;font-size:11px;color:var(--muted);}
+
+/* ── SECTION ── */
+section{padding:60px 0;border-bottom:1px solid var(--border);scroll-margin-top:20px;}
+.sec-label{font-size:10px;letter-spacing:.16em;text-transform:uppercase;color:var(--accent);font-weight:500;margin-bottom:7px;}
+h2{font-family:'DM Serif Display',serif;font-size:32px;color:#fff;margin-bottom:10px;line-height:1.1;}
+h3{font-family:'DM Serif Display',serif;font-size:20px;color:#fff;margin-bottom:8px;margin-top:32px;}
+h4{font-size:11px;font-weight:600;letter-spacing:.1em;text-transform:uppercase;color:var(--muted);margin:18px 0 8px;}
+p{color:var(--muted);margin-bottom:12px;}
+strong{color:var(--text);font-weight:600;}
+ul,ol{padding-left:20px;margin-bottom:12px;}
+li{color:var(--muted);margin-bottom:4px;}
+.sec-intro{color:var(--muted);font-size:15px;margin-bottom:24px;max-width:680px;}
+
+/* ── FORMULA ── */
+.formula{background:var(--bg3);border:1px solid var(--border);border-left:3px solid var(--accent);border-radius:8px;padding:18px 22px;margin:18px 0;font-family:'DM Mono',monospace;font-size:14px;}
+.formula .label{font-size:10px;color:var(--accent2);text-transform:uppercase;letter-spacing:.12em;margin-bottom:7px;font-family:'Inter',sans-serif;font-weight:500;}
+.formula .eq{color:#fff;font-size:15px;margin-bottom:4px;line-height:1.6;}
+.formula .desc{font-size:12px;color:var(--muted);font-family:'Inter',sans-serif;line-height:1.5;}
+
+/* ── CARDS ── */
+.cards{display:grid;grid-template-columns:repeat(auto-fit,minmax(200px,1fr));gap:10px;margin:18px 0;}
+.card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;padding:16px;transition:border-color .2s,transform .2s;cursor:default;}
+.card:hover{border-color:var(--border2);transform:translateY(-2px);}
+.card-icon{width:30px;height:30px;border-radius:7px;display:flex;align-items:center;justify-content:center;margin-bottom:9px;font-size:15px;}
+.card h4{font-size:13px;font-weight:600;color:#fff;margin:0 0 4px;text-transform:none;letter-spacing:0;}
+.card p{font-size:12px;color:var(--muted);margin:0;}
+
+/* ── CALLOUT ── */
+.callout{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin:14px 0;display:flex;gap:11px;}
+.callout-icon{font-size:17px;flex-shrink:0;margin-top:1px;}
+.callout-body strong{font-size:13px;color:#fff;display:block;margin-bottom:2px;}
+.callout-body p{font-size:13px;margin:0;color:var(--muted);}
+.callout.info{border-left:3px solid var(--teal);}
+.callout.warn{border-left:3px solid var(--amber);}
+.callout.tip{border-left:3px solid var(--accent2);}
+.callout.good{border-left:3px solid var(--green);}
+
+/* ── THEOREM ── */
+.theorem{background:rgba(108,99,255,.08);border:1px solid rgba(108,99,255,.25);border-radius:10px;padding:18px 20px;margin:18px 0;}
+.theorem .thm-title{font-size:11px;text-transform:uppercase;letter-spacing:.1em;color:var(--accent2);font-weight:600;margin-bottom:6px;}
+.theorem p{color:var(--text);font-size:14px;margin:0;}
+
+/* ── CODE ── */
+pre{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px 18px;font-family:'DM Mono',monospace;font-size:13px;color:#c9c7c0;overflow-x:auto;margin:14px 0;line-height:1.65;}
+.kw{color:var(--accent2);} .fn{color:var(--teal);} .cm{color:var(--muted);font-style:italic;} .num{color:var(--amber);} .str{color:var(--green);}
+.hl{background:rgba(108,99,255,.12);display:block;margin:0 -18px;padding:0 18px;border-left:2px solid var(--accent);}
+
+/* ── CODE TABS ── */
+.code-wrap{margin:14px 0;border-radius:10px;overflow:hidden;border:1px solid var(--bg4);}
+.code-head{background:#111115;padding:8px 15px;display:flex;align-items:center;justify-content:space-between;border-bottom:1px solid var(--bg4);}
+.lt{font-size:11px;font-weight:600;padding:2px 8px;border-radius:4px;letter-spacing:.04em;font-family:'Inter',sans-serif;}
+.lt-java{background:rgba(248,113,113,.18);color:#fca5a5;}
+.lt-py{background:rgba(59,130,246,.18);color:#93c5fd;}
+.lt-ps{background:rgba(167,139,250,.18);color:#c4b5fd;}
+.cx{font-size:11px;font-family:'DM Mono',monospace;color:var(--amber);}
+.tabs{display:flex;gap:2px;margin-bottom:-1px;position:relative;z-index:1;}
+.tab-btn{padding:6px 14px;border:1px solid var(--border);border-bottom:none;border-radius:7px 7px 0 0;background:var(--bg2);color:var(--muted);font-size:12px;font-weight:500;font-family:'Inter',sans-serif;cursor:pointer;transition:all .15s;}
+.tab-btn:hover{color:var(--text);}
+.tab-btn.active{background:var(--bg3);color:var(--accent2);border-color:var(--accent);}
+.tab-panel{display:none;}
+.tab-panel.active{display:block;}
+
+/* ── TABLE ── */
+.tbl{overflow-x:auto;margin:14px 0;}
+table{border-collapse:collapse;font-family:'DM Mono',monospace;font-size:13px;width:100%;}
+th{background:var(--bg3);color:var(--accent2);padding:9px 13px;border:1px solid var(--border);text-align:left;font-size:11px;font-weight:500;letter-spacing:.08em;text-transform:uppercase;font-family:'Inter',sans-serif;}
+td{background:var(--bg2);color:var(--text);padding:9px 13px;border:1px solid var(--border);vertical-align:top;font-family:'Inter',sans-serif;font-size:13px;}
+td.g{color:var(--green);font-weight:600;}
+td.r{color:var(--red);}
+td.b{color:var(--accent2);font-weight:600;}
+td.t{color:var(--teal);font-weight:600;}
+td.d{background:var(--bg4);color:var(--muted);}
+
+/* ── PILLS ── */
+.pill{display:inline-block;font-family:'DM Mono',monospace;font-size:11px;font-weight:500;padding:2px 8px;border-radius:20px;margin:1px;}
+.pg{background:rgba(74,222,128,.1);color:var(--green);border:1px solid rgba(74,222,128,.25);}
+.pb{background:rgba(59,130,246,.1);color:#60a5fa;border:1px solid rgba(59,130,246,.25);}
+.po{background:rgba(245,158,11,.1);color:var(--amber);border:1px solid rgba(245,158,11,.25);}
+.pr{background:rgba(248,113,113,.1);color:var(--red);border:1px solid rgba(248,113,113,.25);}
+.pp{background:rgba(108,99,255,.1);color:var(--accent2);border:1px solid rgba(108,99,255,.25);}
+
+/* ── DIAGRAM ── */
+.diagram{background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:16px 20px;font-family:'DM Mono',monospace;font-size:12px;color:var(--text);white-space:pre;overflow-x:auto;margin:14px 0;line-height:1.5;}
+
+/* ── STEPPER / BFS ── */
+.stepper{margin:18px 0;}
+.step-controls{display:flex;gap:8px;align-items:center;margin-bottom:12px;flex-wrap:wrap;}
+.step-display{background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;}
+.step-header{padding:11px 16px;border-bottom:1px solid var(--border);display:flex;align-items:center;justify-content:space-between;}
+.step-header .title{font-size:13px;font-weight:600;color:#fff;}
+.step-header .counter{font-size:11px;color:var(--muted);font-family:'DM Mono',monospace;}
+.step-body{padding:16px;min-height:100px;}
+.step-body p{margin:0;font-size:13px;color:var(--muted);}
+.step-dots{display:flex;gap:5px;margin:8px 0;}
+.dot{width:6px;height:6px;border-radius:50%;background:var(--border2);}
+.dot.active{background:var(--accent2);}
+.dot.done{background:var(--teal);}
+
+/* ── BUTTONS ── */
+.btn{padding:7px 14px;border-radius:8px;border:1px solid var(--border2);background:var(--bg3);color:var(--text);font-size:13px;font-weight:500;cursor:pointer;font-family:'Inter',sans-serif;transition:background .15s,border-color .15s;}
+.btn:hover{background:var(--bg4);border-color:var(--accent);color:var(--accent2);}
+.btn.active{background:var(--accent);border-color:var(--accent);color:#fff;}
+.btn-d{border-color:rgba(248,113,113,.35);}
+.btn-d:hover{background:rgba(248,113,113,.1);border-color:var(--red);color:var(--red);}
+.controls{display:flex;flex-wrap:wrap;gap:8px;margin:12px 0;align-items:center;}
+
+/* ── GRAPH CANVAS ── */
+#graph-canvas{width:100%;border:1px solid var(--border);border-radius:12px;background:var(--bg3);cursor:crosshair;display:block;touch-action:none;}
+.stat-grid{display:grid;grid-template-columns:repeat(auto-fit,minmax(90px,1fr));gap:7px;margin-top:10px;}
+.stat-pill{background:var(--bg3);border:1px solid var(--border);border-radius:8px;padding:8px 10px;text-align:center;}
+.stat-pill .v{font-size:20px;font-weight:600;color:#fff;font-family:'DM Mono',monospace;}
+.stat-pill .l{font-size:10px;color:var(--muted);text-transform:uppercase;letter-spacing:.07em;margin-top:1px;}
+.progress-track{background:var(--border);border-radius:4px;height:4px;margin:12px 0;}
+.progress-fill{background:linear-gradient(90deg,var(--accent),var(--teal));height:4px;border-radius:4px;transition:width .5s;}
+#euler-result{display:none;background:var(--bg3);border:1px solid var(--border);border-radius:10px;padding:14px 16px;margin-top:10px;gap:10px;align-items:flex-start;}
+.er-title{font-size:14px;font-weight:600;color:#fff;margin-bottom:3px;}
+.er-desc{font-size:13px;color:var(--muted);}
+
+/* ── SVG ROW ── */
+.svg-row{display:grid;grid-template-columns:repeat(auto-fit,minmax(155px,1fr));gap:10px;margin:18px 0;}
+.svg-card{background:var(--bg3);border:1px solid var(--border);border-radius:12px;overflow:hidden;transition:border-color .2s;}
+.svg-card:hover{border-color:var(--border2);}
+.svg-card svg{display:block;width:100%;}
+.svg-card .svg-label{padding:8px 12px;font-size:12px;font-weight:500;color:var(--text);border-top:1px solid var(--border);}
+.svg-card .svg-sub{font-size:11px;color:var(--muted);margin-top:1px;}
+
+/* ── STEPS NUMBERED ── */
+.steps{counter-reset:step;margin:14px 0;}
+.step-item{display:flex;gap:12px;margin-bottom:12px;align-items:flex-start;}
+.step-item::before{counter-increment:step;content:counter(step);background:var(--accent);color:#fff;font-weight:700;font-size:11px;width:22px;height:22px;border-radius:50%;display:flex;align-items:center;justify-content:center;flex-shrink:0;margin-top:2px;}
+.si-title{font-weight:600;font-size:13px;color:#fff;margin-bottom:2px;}
+.si-desc{font-size:13px;color:var(--muted);}
+
+/* ── BACK TO TOP ── */
+#backtop{position:fixed;bottom:26px;right:26px;z-index:200;background:var(--accent);border:none;border-radius:50%;width:40px;height:40px;color:#fff;font-size:17px;cursor:pointer;display:flex;align-items:center;justify-content:center;opacity:0;transition:opacity .3s,transform .2s;box-shadow:0 4px 18px rgba(108,99,255,.4);}
+#backtop:hover{transform:translateY(-2px);}
+#backtop.show{opacity:1;}
+
+/* ── MOBILE ── */
+#burger{display:none;position:fixed;top:14px;left:14px;z-index:200;background:var(--bg2);border:1px solid var(--border);border-radius:8px;width:38px;height:38px;color:var(--text);font-size:17px;cursor:pointer;align-items:center;justify-content:center;}
+@media(max-width:860px){
+  #sidebar-1,#sidebar-2,#sidebar-3{transform:translateX(-100%);transition:transform .3s;}
+  .sb-open{transform:none!important;}
+  .subject-main{margin-left:0!important;}
+  .s-hero{padding:52px 22px 40px;}
+  .container{padding:0 22px;}
+  #burger{display:flex;}
+  .s-hero h1{font-size:36px;}
+}
+
+/* ── FADE IN ── */
+.fi{opacity:0;transform:translateY(16px);transition:opacity .55s,transform .55s;}
+.fi.vis{opacity:1;transform:none;}
+</style>
+</head>
+<body>
+
+<div id="progress"></div>
+<button id="burger" onclick="toggleSB()">☰</button>
+<button id="backtop" onclick="scrollTo({top:0,behavior:'smooth'})">↑</button>
+
+<!-- ═══════════════════════════════════════
+     HOME PAGE
+═══════════════════════════════════════ -->
+<div id="home" class="page active">
+<div class="home-wrap">
+
+  <nav class="home-nav">
+    <div class="logo">Guias de <em>Computação</em></div>
+    <div class="tag">3 Provas · 44 Tópicos</div>
+  </nav>
+
+  <div class="home-hero">
+    <div class="home-eyebrow">Selecione a matéria</div>
+    <h1 class="home-title">Escolha sua<br><em>Prova</em></h1>
+    <p class="home-sub">Três guias completos e independentes, cada um com seu próprio conteúdo, exemplos e exercícios.</p>
+
+    <div class="cards-row">
+
+      <!-- CARD 1 — ENADE -->
+      <div class="subject-card sc-1" onclick="openSubject('s1')">
+        <span class="sc-badge">Prova 1</span>
+        <span class="sc-icon">🎓</span>
+        <div class="sc-title">Guia <em>ENADE</em></div>
+        <p class="sc-desc">Computação geral — os grandes tópicos cobrados no ENADE de Ciência da Computação.</p>
+        <div class="sc-topics">
+          <span class="sc-tag">Máquina de Turing</span>
+          <span class="sc-tag">P, NP</span>
+          <span class="sc-tag">Processos & Threads</span>
+          <span class="sc-tag">Memória Virtual</span>
+          <span class="sc-tag">TCP/IP</span>
+          <span class="sc-tag">Probabilidade</span>
+          <span class="sc-tag">+18 tópicos</span>
+        </div>
+        <div class="sc-btn">Abrir guia <span class="arrow">→</span></div>
+      </div>
+
+      <!-- CARD 2 — COMPLEXIDADE -->
+      <div class="subject-card sc-2" onclick="openSubject('s2')">
+        <span class="sc-badge">Prova 2</span>
+        <span class="sc-icon">⚙️</span>
+        <div class="sc-title">Complexidade de <em>Algoritmos</em></div>
+        <p class="sc-desc">Recursão, iteração, análise de complexidade com exemplos em Java, Python e Pseudocódigo.</p>
+        <div class="sc-topics">
+          <span class="sc-tag">Logaritmos</span>
+          <span class="sc-tag">Iteração vs Recursão</span>
+          <span class="sc-tag">Fibonacci O(2ⁿ)</span>
+          <span class="sc-tag">Fatorial</span>
+          <span class="sc-tag">Divisão & Conquista</span>
+          <span class="sc-tag">Prog. Dinâmica</span>
+          <span class="sc-tag">Método Numérico</span>
+        </div>
+        <div class="sc-btn">Abrir guia <span class="arrow">→</span></div>
+      </div>
+
+      <!-- CARD 3 — GRAFOS TONNY -->
+      <div class="subject-card sc-3" onclick="openSubject('s3')">
+        <span class="sc-badge">Prova 3 — Prof. Tonny</span>
+        <span class="sc-icon">🕸️</span>
+        <div class="sc-title">Teoria dos <em>Grafos</em></div>
+        <p class="sc-desc">Teoria completa de grafos com construtor interativo, steppers animados e fórmulas avançadas.</p>
+        <div class="sc-topics">
+          <span class="sc-tag">Tipos de Grafos</span>
+          <span class="sc-tag">Handshaking Lemma</span>
+          <span class="sc-tag">BFS/DFS interativo</span>
+          <span class="sc-tag">Dijkstra</span>
+          <span class="sc-tag">Euleriano</span>
+          <span class="sc-tag">Fórmula de Euler</span>
+          <span class="sc-tag">Construtor Canvas</span>
+        </div>
+        <div class="sc-btn">Abrir guia <span class="arrow">→</span></div>
+      </div>
+
+    </div>
+  </div>
+
+  <div class="home-footer">
+    <span>Guias criados com Claude</span>
+    <span>Clique em uma matéria para começar →</span>
+  </div>
+</div>
+</div>
+
+<!-- ═══════════════════════════════════════
+     SUBJECT 1 — ENADE
+═══════════════════════════════════════ -->
+<div id="s1" class="page">
+
+<nav id="sidebar-1">
+  <div class="sb-header">
+    <button class="sb-back" onclick="goHome()">← Voltar ao início</button>
+    <div class="sb-subject-name">Guia <em>ENADE</em></div>
+    <input class="sb-search" type="text" placeholder="Buscar…" oninput="filterSB(this,'s1')">
+  </div>
+  <div class="sb-nav" id="nav-s1">
+    <div class="sb-cat">Teoria da Computação</div>
+    <a class="sb-link" href="#s1-turing"><span class="sb-dot" style="background:#6c63ff"></span>Máquina de Turing</a>
+    <a class="sb-link" href="#s1-notacao"><span class="sb-dot" style="background:#6c63ff"></span>Notação-O</a>
+    <a class="sb-link" href="#s1-pnp"><span class="sb-dot" style="background:#6c63ff"></span>Classes P, NP, NP-Completo</a>
+    <a class="sb-link" href="#s1-gramatica"><span class="sb-dot" style="background:#6c63ff"></span>Gramática Formal</a>
+    <div class="sb-cat">Estruturas de Dados</div>
+    <a class="sb-link" href="#s1-pilha"><span class="sb-dot" style="background:#2dd4bf"></span>Pilha & Alocação Dinâmica</a>
+    <a class="sb-link" href="#s1-hash"><span class="sb-dot" style="background:#2dd4bf"></span>Tabela Hash</a>
+    <a class="sb-link" href="#s1-arvore"><span class="sb-dot" style="background:#2dd4bf"></span>Árvores Binárias</a>
+    <div class="sb-cat">Sistemas Operacionais</div>
+    <a class="sb-link" href="#s1-processos"><span class="sb-dot" style="background:#4ade80"></span>Processos & Threads</a>
+    <a class="sb-link" href="#s1-escalonamento"><span class="sb-dot" style="background:#4ade80"></span>Escalonamento</a>
+    <a class="sb-link" href="#s1-memoria"><span class="sb-dot" style="background:#4ade80"></span>Memória Virtual & Paginação</a>
+    <a class="sb-link" href="#s1-cpu"><span class="sb-dot" style="background:#4ade80"></span>Ciclo de Instrução & CPU</a>
+    <a class="sb-link" href="#s1-compiladores"><span class="sb-dot" style="background:#4ade80"></span>Compiladores & Syscalls</a>
+    <a class="sb-link" href="#s1-memorias"><span class="sb-dot" style="background:#4ade80"></span>Tipos de Memória</a>
+    <a class="sb-link" href="#s1-multiproc"><span class="sb-dot" style="background:#4ade80"></span>Multiprocessadores</a>
+    <div class="sb-cat">Redes & Hardware</div>
+    <a class="sb-link" href="#s1-protocolos"><span class="sb-dot" style="background:#f59e0b"></span>TCP, IP, UDP, ICMP, DHCP</a>
+    <a class="sb-link" href="#s1-mascara"><span class="sb-dot" style="background:#f59e0b"></span>Máscara de Sub-rede</a>
+    <a class="sb-link" href="#s1-portas"><span class="sb-dot" style="background:#f59e0b"></span>Portas Lógicas & Circuitos</a>
+    <a class="sb-link" href="#s1-flipflop"><span class="sb-dot" style="background:#f59e0b"></span>Flip-Flop</a>
+    <div class="sb-cat">Matemática Discreta</div>
+    <a class="sb-link" href="#s1-relacao"><span class="sb-dot" style="background:#f472b6"></span>Relação Binária & Equivalência</a>
+    <a class="sb-link" href="#s1-prob"><span class="sb-dot" style="background:#f472b6"></span>Probabilidade & Bayes</a>
+    <a class="sb-link" href="#s1-venn"><span class="sb-dot" style="background:#f472b6"></span>Diagrama de Venn</a>
+    <a class="sb-link" href="#s1-particao"><span class="sb-dot" style="background:#f472b6"></span>Partição de Conjunto</a>
+    <div class="sb-cat">IA & Algoritmos</div>
+    <a class="sb-link" href="#s1-busca"><span class="sb-dot" style="background:#f87171"></span>BFS & DFS</a>
+    <a class="sb-link" href="#s1-heuristica"><span class="sb-dot" style="background:#f87171"></span>Busca Heurística (A*)</a>
+    <a class="sb-link" href="#s1-adecisao"><span class="sb-dot" style="background:#f87171"></span>Árvore de Decisão</a>
+    <a class="sb-link" href="#s1-paralela"><span class="sb-dot" style="background:#f87171"></span>Computação Paralela</a>
+    <div class="sb-cat">Sistemas & Dados</div>
+    <a class="sb-link" href="#s1-imagens"><span class="sb-dot" style="background:#a78bfa"></span>Processamento de Imagens</a>
+    <a class="sb-link" href="#s1-testes"><span class="sb-dot" style="background:#a78bfa"></span>Testes de Software</a>
+    <a class="sb-link" href="#s1-dwh"><span class="sb-dot" style="background:#a78bfa"></span>Data Warehouse & OLAP</a>
+  </div>
+</nav>
+
+<div class="subject-main" id="main-s1">
+  <div class="s-hero">
+    <div class="s-hero-label">🎓 Prova 1</div>
+    <h1>Guia <em>ENADE</em></h1>
+    <p>Teoria da Computação, Sistemas Operacionais, Redes, Matemática Discreta e Inteligência Artificial — os grandes temas do ENADE.</p>
+    <div class="s-chips">
+      <span class="s-chip">Máquina de Turing</span><span class="s-chip">P vs NP</span><span class="s-chip">Processos & Threads</span>
+      <span class="s-chip">Paginação</span><span class="s-chip">TCP/IP</span><span class="s-chip">Probabilidade</span><span class="s-chip">BFS/DFS</span>
+    </div>
+  </div>
+
+  <!-- ─── TURING ─── -->
+  <section id="s1-turing"><div class="container fi">
+    <div class="sec-label">01 · Teoria da Computação</div>
+    <h2>Máquina de Turing</h2>
+    <p class="sec-intro">Modelo matemático proposto por Alan Turing em 1936 que define o limite do que é computável.</p>
+    <div class="formula"><div class="label">Definição Formal — 7-tupla</div><div class="eq">M = (Q, Σ, Γ, δ, q₀, q_aceita, q_rejeita)</div><div class="desc">Q = estados | Σ = alfabeto de entrada | Γ = alfabeto da fita (inclui ⊔) | δ: Q×Γ → Q×Γ×{E,D}</div></div>
+    <div class="tbl"><table><tr><th>Símbolo</th><th>Significado</th><th>Exemplo</th></tr><tr><td>Q</td><td>Conjunto finito de estados</td><td>{q0,q1,q_ac,q_rej}</td></tr><tr><td>Σ</td><td>Alfabeto de entrada</td><td>{a,b}</td></tr><tr><td>Γ</td><td>Alfabeto da fita</td><td>{a,b,X,⊔}</td></tr><tr><td>δ</td><td>Função de transição</td><td>Q×Γ→Q×Γ×{E,D}</td></tr></table></div>
+    <h4>Exemplo — Reconhecer aⁿbⁿ</h4>
+    <div class="diagram">Fita:  [a][a][b][b][⊔]
+
+Estado  Lê   Escreve  Mov   Vai para
+q0      a    X        D     q1        ← risca 'a'
+q0      X    X        D     q0        ← pula X
+q0      ⊔    ⊔        —     q_aceita  ← só X restou!
+q1      a    a        D     q1        ← anda direita
+q1      b    X        E     q2        ← risca 'b'
+q2      a    a        E     q2        ← volta
+q2      X    X        D     q0        ← reinicia</div>
+    <div class="callout info"><div class="callout-icon">💡</div><div class="callout-body"><strong>Tese de Church-Turing</strong><p>Tudo que é efetivamente computável por um algoritmo pode ser computado por uma MT. O Problema da Parada é indecidível — não existe MT que determine se outra MT para.</p></div></div>
+  </div></section>
+
+  <!-- ─── NOTAÇÃO-O ─── -->
+  <section id="s1-notacao"><div class="container fi">
+    <div class="sec-label">02 · Análise de Algoritmos</div>
+    <h2>Notação-O & Complexidade</h2>
+    <div class="formula"><div class="label">Big-O — Limite Superior (pior caso)</div><div class="eq">f(n) = O(g(n)) ⟺ ∃ c,n₀>0 : f(n) ≤ c·g(n), ∀ n ≥ n₀</div></div>
+    <div class="formula"><div class="label">Big-Θ — Limite Exato</div><div class="eq">f(n) = Θ(g(n)) ⟺ f(n) = O(g(n))  E  f(n) = Ω(g(n))</div></div>
+    <div class="callout tip"><div class="callout-icon">📐</div><div class="callout-body"><strong>Regras de Simplificação</strong><p>1. Ignora constantes: O(5n)=O(n) &nbsp;|&nbsp; 2. Termo dominante: O(n²+n)=O(n²) &nbsp;|&nbsp; 3. Loops aninhados multiplicam: O(n)×O(n)=O(n²)</p></div></div>
+    <div class="tbl"><table><tr><th>Notação</th><th>Nome</th><th>Exemplo</th><th>n=1000</th></tr><tr><td class="t">O(1)</td><td>Constante</td><td>Acesso array</td><td>1</td></tr><tr><td class="t">O(log n)</td><td>Logarítmica</td><td>Busca binária</td><td>10</td></tr><tr><td class="t">O(n)</td><td>Linear</td><td>Busca linear</td><td>1.000</td></tr><tr><td>O(n log n)</td><td>Linearítmica</td><td>Merge Sort</td><td>9.966</td></tr><tr><td class="b">O(n²)</td><td>Quadrática</td><td>Bubble Sort</td><td>1.000.000</td></tr><tr><td class="r">O(2ⁿ)</td><td>Exponencial</td><td>Subconjuntos</td><td>inviável</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── P, NP ─── -->
+  <section id="s1-pnp"><div class="container fi">
+    <div class="sec-label">03 · Complexidade Computacional</div>
+    <h2>Classes P, NP e NP-Completo</h2>
+    <div class="formula"><div class="label">Classe P</div><div class="eq">Problemas resolvíveis em tempo polinomial O(nᵏ)</div><div class="desc">Exemplos: ordenação, busca, caminho mínimo, teste de primalidade (AKS).</div></div>
+    <div class="formula"><div class="label">Classe NP</div><div class="eq">Problemas cuja solução pode ser verificada em tempo polinomial</div><div class="desc">P ⊆ NP. NP não significa "difícil" — significa que verificar é fácil, resolver pode não ser.</div></div>
+    <div class="theorem"><div class="thm-title">P vs NP — Problema do Milênio (US$1.000.000)</div><p>Ainda em aberto. A maioria acredita que P ≠ NP. NP-Completo = NP-Difícil ∩ NP. Exemplos NP-Completo: SAT, 3-SAT, Clique, TSP, Mochila 0/1.</p></div>
+    <div class="diagram">  ╔══════════════════════════════════════╗
+  ║            NP-Difícil               ║
+  ║  ╔══════════════════════════════╗   ║
+  ║  ║        NP-Completo           ║   ║
+  ║  ║   ╔══════════════════╗       ║   ║
+  ║  ║   ║       NP         ║       ║   ║
+  ║  ║   ║  ╔════════╗      ║       ║   ║
+  ║  ║   ║  ║   P    ║      ║       ║   ║
+  ║  ║   ║  ╚════════╝      ║       ║   ║
+  ║  ║   ╚══════════════════╝       ║   ║
+  ║  ╚══════════════════════════════╝   ║
+  ╚══════════════════════════════════════╝</div>
+  </div></section>
+
+  <!-- ─── GRAMÁTICA ─── -->
+  <section id="s1-gramatica"><div class="container fi">
+    <div class="sec-label">04 · Linguagens Formais</div>
+    <h2>Gramática Formal</h2>
+    <div class="formula"><div class="label">Definição — 4-tupla</div><div class="eq">G = (V, T, P, S)</div><div class="desc">V = variáveis (não-terminais) | T = terminais | P = regras de produção α→β | S = símbolo inicial</div></div>
+    <div class="cards"><div class="card"><h4>Não-terminais (V)</h4><p>Letras maiúsculas (S, A, B). Podem ser expandidos por regras.</p></div><div class="card"><h4>Terminais (T)</h4><p>Letras minúsculas (a, b, 0, 1). Não expansíveis — aparecem na cadeia final.</p></div></div>
+<pre>G = ({S}, {a,b}, P, S)  — Gramática para aⁿbⁿ
+P = { S → aSb,  S → ab }
+
+Derivação de "aaabbb":
+S ⇒ aSb ⇒ aaSbb ⇒ aaabbb ✓</pre>
+    <div class="tbl"><table><tr><th>Tipo (Chomsky)</th><th>Nome</th><th>Autômato</th></tr><tr><td>Tipo 0</td><td>Irrestrita</td><td>Máquina de Turing</td></tr><tr><td>Tipo 1</td><td>Sensível ao contexto</td><td>Autômato Linear</td></tr><tr><td>Tipo 2</td><td>Livre de contexto</td><td>Autômato de Pilha</td></tr><tr><td>Tipo 3</td><td>Regular</td><td>Autômato Finito</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── PILHA ─── -->
+  <section id="s1-pilha"><div class="container fi">
+    <div class="sec-label">05 · Estruturas de Dados</div>
+    <h2>Pilha (Stack) & Alocação Dinâmica</h2>
+    <p class="sec-intro">Estrutura LIFO — último a entrar, primeiro a sair. Todas as operações são O(1).</p>
+    <div class="diagram">PUSH(A) → PUSH(B) → PUSH(C) → POP():
+
+  ┌───┐          ┌───┐ ← topo     ┌───┐ ← topo
+  │ B │ ← topo   │ C │            │ B │
+  ├───┤           ├───┤            ├───┤
+  │ A │           │ B │            │ A │
+  └───┘           ├───┤            └───┘
+                  │ A │        Retornou: C
+                  └───┘</div>
+<pre><span class="kw">class</span> <span class="fn">Pilha</span>:
+    <span class="kw">def</span> <span class="fn">__init__</span>(self): self._d = []
+    <span class="kw">def</span> <span class="fn">push</span>(self, v): self._d.append(v)
+    <span class="kw">def</span> <span class="fn">pop</span>(self):  <span class="kw">return</span> self._d.pop()
+    <span class="kw">def</span> <span class="fn">peek</span>(self): <span class="kw">return</span> self._d[-<span class="num">1</span>]
+
+<span class="cm"># Verificar parênteses balanceados:</span>
+<span class="kw">def</span> <span class="fn">balanceado</span>(s):
+    p = Pilha(); pares = {<span class="str">')'</span>:<span class="str">'('</span>,<span class="str">']'</span>:<span class="str">'['</span>,<span class="str">'}'</span>:<span class="str">'{'</span>}
+    <span class="kw">for</span> c <span class="kw">in</span> s:
+        <span class="kw">if</span> c <span class="kw">in</span> <span class="str">'([{'</span>: p.push(c)
+        <span class="kw">elif</span> c <span class="kw">in</span> <span class="str">')]}'</span>:
+            <span class="kw">if</span> p.empty() <span class="kw">or</span> p.pop() != pares[c]: <span class="kw">return False</span>
+    <span class="kw">return</span> p.empty()</pre>
+    <h3>Alocação Dinâmica em C</h3>
+    <div class="tbl"><table><tr><th>Função</th><th>Ação</th></tr><tr><td>malloc(size)</td><td>Aloca bytes sem inicializar</td></tr><tr><td>calloc(n,size)</td><td>Aloca n×size bytes zerados</td></tr><tr><td>realloc(ptr,size)</td><td>Redimensiona bloco</td></tr><tr><td>free(ptr)</td><td>Libera memória — OBRIGATÓRIO!</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── HASH ─── -->
+  <section id="s1-hash"><div class="container fi">
+    <div class="sec-label">06 · Estruturas de Dados</div>
+    <h2>Tabela Hash</h2>
+    <div class="formula"><div class="label">Função hash básica</div><div class="eq">h(k) = k mod m</div><div class="desc">m = tamanho da tabela. Ex: m=7 → h(22)=1, h(31)=3. Colisão quando h(k₁)=h(k₂).</div></div>
+    <div class="formula"><div class="label">Fator de carga</div><div class="eq">α = n/m  →  manter α &lt; 0.75, senão rehashing</div></div>
+    <div class="cards"><div class="card"><h4>Chaining</h4><p>Lista ligada em cada célula. O(1) médio, O(n) pior.</p></div><div class="card"><h4>Open Addressing</h4><p>h(k,i)=(h(k)+i) mod m. Sem listas extras.</p></div><div class="card"><h4>Double Hashing</h4><p>h(k,i)=(h₁(k)+i·h₂(k)) mod m. Reduz clustering.</p></div></div>
+  </div></section>
+
+  <!-- ─── ÁRVORE ─── -->
+  <section id="s1-arvore"><div class="container fi">
+    <div class="sec-label">07 · Estruturas de Dados</div>
+    <h2>Árvores Binárias & BST</h2>
+    <div class="diagram">BST com: 5, 3, 7, 1, 4, 6, 8
+
+        5
+      /   \
+     3     7
+    / \   / \
+   1   4 6   8
+
+  In-ordem: 1 3 4 5 6 7 8  ← sempre ordenado!</div>
+    <div class="tbl"><table><tr><th>Percurso</th><th>Ordem</th><th>Saída</th></tr><tr><td>In-ordem (LNR)</td><td>Esq → Nó → Dir</td><td class="t">1 3 4 5 6 7 8</td></tr><tr><td>Pré-ordem (NLR)</td><td>Nó → Esq → Dir</td><td>5 3 1 4 7 6 8</td></tr><tr><td>Pós-ordem (LRN)</td><td>Esq → Dir → Nó</td><td>1 4 3 6 8 7 5</td></tr></table></div>
+    <div class="tbl"><table><tr><th>Operação</th><th>BST médio</th><th>BST pior</th><th>AVL</th></tr><tr><td>Busca</td><td class="t">O(log n)</td><td class="r">O(n)</td><td class="t">O(log n)</td></tr><tr><td>Inserção</td><td class="t">O(log n)</td><td class="r">O(n)</td><td class="t">O(log n)</td></tr></table></div>
+    <div class="formula"><div class="label">AVL — Fator de Balanceamento</div><div class="eq">FB(n) = altura(esq) − altura(dir)  →  |FB(n)| ≤ 1</div><div class="desc">Quando |FB|=2, aplica rotação simples (LL/RR) ou dupla (LR/RL).</div></div>
+  </div></section>
+
+  <!-- ─── PROCESSOS ─── -->
+  <section id="s1-processos"><div class="container fi">
+    <div class="sec-label">08 · Sistemas Operacionais</div>
+    <h2>Processos & Threads</h2>
+    <div class="diagram">Estados de um Processo:
+
+[Novo] → [Pronto] ──dispatch──► [Executando]
+               ▲                 │        │
+               │   interrupt     │        │ I/O
+               └─────────────────┘        ▼
+                                      [Bloqueado]
+                                      [Terminado]</div>
+    <div class="tbl"><table><tr><th>Aspecto</th><th>Processo</th><th>Thread</th></tr><tr><td>Memória</td><td>Espaço privado</td><td>Compartilhada</td></tr><tr><td>Criação</td><td>Custosa (fork)</td><td class="t">Barata</td></tr><tr><td>Isolamento</td><td class="t">Alta</td><td class="r">Baixa</td></tr><tr><td>Ctx. switch</td><td>Custosa</td><td class="t">Barata</td></tr></table></div>
+    <div class="callout warn"><div class="callout-icon">⚠️</div><div class="callout-body"><strong>Deadlock — 4 Condições de Coffman</strong><p>Exclusão mútua + Posse e espera + Sem preempção + Espera circular. Elimine uma condição para prevenir deadlock.</p></div></div>
+  </div></section>
+
+  <!-- ─── ESCALONAMENTO ─── -->
+  <section id="s1-escalonamento"><div class="container fi">
+    <div class="sec-label">09 · Sistemas Operacionais</div>
+    <h2>Escalonamento</h2>
+<pre><span class="cm">FCFS — P1(24), P2(3), P3(3), chegada t=0</span>
+|────── P1 ──────|P2|P3|  Espera média = 17ms ❌
+
+<span class="cm">SJF — ordena por burst menor</span>
+|P3|P2|──P1──|           Espera média = 3ms ✅
+
+<span class="cm">Round Robin — quantum=4ms</span>
+|──P1──|P2|P3|── P1 cont. ──|  Bom para interatividade</pre>
+    <div class="tbl"><table><tr><th>Algoritmo</th><th>Preemptivo?</th><th>Starvation?</th><th>Melhor para</th></tr><tr><td>FCFS</td><td>Não</td><td>Não</td><td>Batch</td></tr><tr><td>SJF</td><td>Não</td><td class="r">Sim</td><td>Minimizar turnaround</td></tr><tr><td>Round Robin</td><td>Sim</td><td class="t">Não</td><td>Sistemas interativos</td></tr><tr><td>Prioridades</td><td>Ambos</td><td class="r">Sim (usar aging)</td><td>Tempo real</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── MEMÓRIA VIRTUAL ─── -->
+  <section id="s1-memoria"><div class="container fi">
+    <div class="sec-label">10 · Sistemas Operacionais</div>
+    <h2>Memória Virtual & Paginação</h2>
+    <div class="formula"><div class="label">Tradução de Endereço</div><div class="eq">Físico = frame_base + (virtual mod tamanho_página)</div><div class="desc">Ex: página=1KB, endereço=2500 → página=2, offset=452. Frame 1 → físico=1024+452=1476</div></div>
+    <div class="formula"><div class="label">Tempo Efetivo de Acesso</div><div class="eq">T = (1−p)·T_mem + p·T_page_fault</div><div class="desc">p=taxa de page faults. T_pf≈8ms, T_mem≈200ns. p=0.1% degrada 40× o desempenho!</div></div>
+    <div class="tbl"><table><tr><th>Algoritmo</th><th>Política</th></tr><tr><td>Ótimo (OPT)</td><td>Substitui a usada mais tarde — impossível na prática</td></tr><tr><td>FIFO</td><td>Substitui a mais antiga — anomalia de Bélády</td></tr><tr><td class="t">LRU</td><td>Substitui a usada há mais tempo — melhor prático</td></tr></table></div>
+    <div class="callout warn"><div class="callout-icon">⚠️</div><div class="callout-body"><strong>Thrashing</strong><p>Frames insuficientes → sistema passa mais tempo em page faults do que executando. Working Set Model previne.</p></div></div>
+  </div></section>
+
+  <!-- ─── CPU ─── -->
+  <section id="s1-cpu"><div class="container fi">
+    <div class="sec-label">11 · Arquitetura</div>
+    <h2>Ciclo de Instrução & Registradores</h2>
+    <div class="diagram">┌──────────┐    ┌──────────┐    ┌───────────┐
+│  FETCH   │───►│  DECODE  │───►│  EXECUTE  │
+│ MAR←PC   │    │ decodif. │    │ ALU opera │
+│ IR←MEM   │    │ opcode + │    │ atualiza  │
+│ PC←PC+1  │    │ operandos│    │ FLAGS/AC  │
+└──────────┘    └──────────┘    └─────┬─────┘
+     ▲                                │
+     └────────────────────────────────┘</div>
+    <div class="tbl"><table><tr><th>Registrador</th><th>Função</th></tr><tr><td>PC / IP</td><td>Endereço da próxima instrução</td></tr><tr><td>IR</td><td>Instrução sendo executada</td></tr><tr><td>MAR / MDR</td><td>Interface com memória</td></tr><tr><td>SP</td><td>Topo da pilha</td></tr><tr><td>FLAGS</td><td>Zero, Carry, Overflow, Sign</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── COMPILADORES ─── -->
+  <section id="s1-compiladores"><div class="container fi">
+    <div class="sec-label">12 · Sistemas</div>
+    <h2>Compiladores & Chamadas de Sistema</h2>
+    <div class="diagram">Código Fonte
+→ Análise Léxica       → Tokens
+→ Análise Sintática    → AST
+→ Análise Semântica    → Verificação de tipos
+→ Geração de IR        → Código intermediário
+→ Otimização           → Elimina código morto
+→ Geração de Código    → Assembly / Binário</div>
+    <div class="tbl"><table><tr><th>Categoria</th><th>Exemplos (Linux)</th></tr><tr><td>Processos</td><td>fork(), exec(), exit(), wait()</td></tr><tr><td>Arquivos</td><td>open(), read(), write(), close()</td></tr><tr><td>Rede</td><td>socket(), send(), recv(), bind()</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── MEMÓRIAS ─── -->
+  <section id="s1-memorias"><div class="container fi">
+    <div class="sec-label">13 · Arquitetura</div>
+    <h2>Hierarquia de Memória</h2>
+    <div class="diagram">↑ Velocidade  ┌──────────────────────┐
+              │  Registradores  ~0.5ns │  KB
+              ├──────────────────────┤
+              │  Cache L1/L2/L3       │  KB → MB
+              ├──────────────────────┤
+              │  RAM (DRAM)    ~100ns │  GB  (volátil)
+              ├──────────────────────┤
+              │  SSD           ~100µs │  TB
+              │  HDD           ~10ms  │  TB
+↓ Custo/GB   └──────────────────────┘</div>
+    <div class="tbl"><table><tr><th>Tipo</th><th>Tecnologia</th><th>Volátil?</th></tr><tr><td>SRAM</td><td>Flip-flops (cache)</td><td class="r">Sim</td></tr><tr><td>DRAM</td><td>Capacitores (RAM)</td><td class="r">Sim</td></tr><tr><td>Flash/ROM</td><td>EEPROM (SSD, pendrive)</td><td class="t">Não</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── MULTIPROC ─── -->
+  <section id="s1-multiproc"><div class="container fi">
+    <div class="sec-label">14 · Paralelismo</div>
+    <h2>Multiprocessadores & Lei de Amdahl</h2>
+    <div class="formula"><div class="label">Lei de Amdahl</div><div class="eq">S(N) = 1 / [(1−p) + p/N]</div><div class="desc">p = fração paralelizável. Com p=0.8 e N=∞: S_max = 1/0.2 = 5×. Limite absoluto!</div></div>
+    <div class="tbl"><table><tr><th>Tipo (Flynn)</th><th>Instrução</th><th>Dados</th><th>Exemplo</th></tr><tr><td>SISD</td><td>Única</td><td>Único</td><td>CPU clássica</td></tr><tr><td>SIMD</td><td>Única</td><td>Múltiplos</td><td>GPU, SSE/AVX</td></tr><tr><td class="t">MIMD</td><td>Múltipla</td><td>Múltiplos</td><td>Multicore, clusters</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── PROTOCOLOS ─── -->
+  <section id="s1-protocolos"><div class="container fi">
+    <div class="sec-label">15 · Redes</div>
+    <h2>Protocolos: TCP, IP, UDP, ICMP & DHCP</h2>
+    <div class="tbl"><table><tr><th>Aspecto</th><th>TCP</th><th>UDP</th></tr><tr><td>Conexão</td><td>3-way handshake</td><td>Sem conexão</td></tr><tr><td>Confiabilidade</td><td class="t">Garantida</td><td class="r">Nenhuma</td></tr><tr><td>Ordem</td><td class="t">Garantida</td><td class="r">Não garantida</td></tr><tr><td>Header</td><td>20 bytes</td><td class="t">8 bytes (rápido)</td></tr><tr><td>Uso</td><td>HTTP, SSH, FTP</td><td>DNS, streaming, jogos</td></tr></table></div>
+    <div class="diagram">Three-Way Handshake (TCP):
+Cliente ──SYN(seq=x)──────────────────► Servidor
+        ◄─SYN-ACK(seq=y,ack=x+1)───────
+        ──ACK(ack=y+1)─────────────────►
+
+DHCP — DORA:
+Cliente ──DISCOVER(broadcast)──────────► Servidor
+        ◄─OFFER(IP proposto)────────────
+        ──REQUEST(confirma)────────────►
+        ◄─ACK(IP+mask+gateway+DNS)──────</div>
+    <div class="callout info"><div class="callout-icon">🔷</div><div class="callout-body"><strong>ICMP</strong><p>Protocolo de controle: ping (Echo Request/Reply) e traceroute (Time Exceeded). Não transporta dados de aplicação.</p></div></div>
+  </div></section>
+
+  <!-- ─── MÁSCARA ─── -->
+  <section id="s1-mascara"><div class="container fi">
+    <div class="sec-label">16 · Redes</div>
+    <h2>Máscara de Sub-rede</h2>
+    <div class="formula"><div class="label">Operação AND</div><div class="eq">Endereço de Rede = IP AND Máscara</div><div class="desc">192.168.1.100 AND 255.255.255.0 = 192.168.1.0</div></div>
+<pre><span class="cm">Sub-netting: 192.168.10.0/24 em 4 sub-redes → /26</span>
+Sub-rede 1: 192.168.10.0/26   → hosts .1 a .62    (62 hosts)
+Sub-rede 2: 192.168.10.64/26  → hosts .65 a .126
+Sub-rede 3: 192.168.10.128/26 → hosts .129 a .190
+Sub-rede 4: 192.168.10.192/26 → hosts .193 a .254</pre>
+    <div class="tbl"><table><tr><th>CIDR</th><th>Máscara</th><th>Hosts</th></tr><tr><td>/8</td><td>255.0.0.0</td><td>16.777.214</td></tr><tr><td>/16</td><td>255.255.0.0</td><td>65.534</td></tr><tr><td>/24</td><td>255.255.255.0</td><td>254</td></tr><tr><td>/30</td><td>255.255.255.252</td><td>2</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── PORTAS LÓGICAS ─── -->
+  <section id="s1-portas"><div class="container fi">
+    <div class="sec-label">17 · Eletrônica Digital</div>
+    <h2>Portas Lógicas & Tabelas Verdade</h2>
+    <div class="tbl"><table><tr><th>Porta</th><th>A</th><th>B</th><th>Saída</th><th>Regra</th></tr><tr><td rowspan="4">AND (A·B)</td><td>0</td><td>0</td><td class="r">0</td><td rowspan="4">1 só se TODOS 1</td></tr><tr><td>0</td><td>1</td><td class="r">0</td></tr><tr><td>1</td><td>0</td><td class="r">0</td></tr><tr><td>1</td><td>1</td><td class="g">1</td></tr><tr><td rowspan="4">OR (A+B)</td><td>0</td><td>0</td><td class="r">0</td><td rowspan="4">1 se ao menos um 1</td></tr><tr><td>0</td><td>1</td><td class="g">1</td></tr><tr><td>1</td><td>0</td><td class="g">1</td></tr><tr><td>1</td><td>1</td><td class="g">1</td></tr><tr><td rowspan="4">XOR (A⊕B)</td><td>0</td><td>0</td><td class="r">0</td><td rowspan="4">1 quando DIFERENTES</td></tr><tr><td>0</td><td>1</td><td class="g">1</td></tr><tr><td>1</td><td>0</td><td class="g">1</td></tr><tr><td>1</td><td>1</td><td class="r">0</td></tr><tr><td rowspan="4">NAND</td><td>0</td><td>0</td><td class="g">1</td><td rowspan="4">NOT AND — universal</td></tr><tr><td>0</td><td>1</td><td class="g">1</td></tr><tr><td>1</td><td>0</td><td class="g">1</td></tr><tr><td>1</td><td>1</td><td class="r">0</td></tr></table></div>
+    <div class="formula"><div class="label">Leis de De Morgan</div><div class="eq">¬(A·B) = Ā+B̄  |  ¬(A+B) = Ā·B̄</div><div class="desc">NAND e NOR são universalmente completas — qualquer circuito pode ser feito só com NANDs ou só com NORs.</div></div>
+  </div></section>
+
+  <!-- ─── FLIP-FLOP ─── -->
+  <section id="s1-flipflop"><div class="container fi">
+    <div class="sec-label">18 · Eletrônica Digital</div>
+    <h2>Flip-Flop</h2>
+    <p class="sec-intro">Elemento de memória que armazena 1 bit. Base de registradores, contadores e memória SRAM.</p>
+    <div class="tbl"><table><tr><th>Tipo</th><th>Entradas</th><th>Q próximo</th><th>Operação</th></tr><tr><td>SR</td><td>S=0,R=0</td><td>Q (hold)</td><td>Mantém</td></tr><tr><td>SR</td><td>S=1,R=0</td><td class="g">1</td><td>Set</td></tr><tr><td>SR</td><td>S=0,R=1</td><td class="r">0</td><td>Reset</td></tr><tr><td>SR</td><td>S=1,R=1</td><td class="r">Inválido</td><td>Proibido!</td></tr><tr><td>D (↑CLK)</td><td>D=0</td><td class="r">0</td><td>Copia D</td></tr><tr><td>D (↑CLK)</td><td>D=1</td><td class="g">1</td><td>Copia D</td></tr><tr><td>JK</td><td>J=1,K=1</td><td>Q̄</td><td>Toggle</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── RELAÇÃO ─── -->
+  <section id="s1-relacao"><div class="container fi">
+    <div class="sec-label">19 · Matemática Discreta</div>
+    <h2>Relação Binária & Equivalência</h2>
+    <div class="formula"><div class="label">Relação Binária</div><div class="eq">R ⊆ A × B  |  aRb  ou  (a,b) ∈ R</div></div>
+    <div class="tbl"><table><tr><th>Propriedade</th><th>Definição</th><th>Exemplo</th></tr><tr><td>Reflexiva</td><td>∀a: aRa</td><td>≤ em ℤ</td></tr><tr><td>Simétrica</td><td>aRb ⟹ bRa</td><td>"é amigo de"</td></tr><tr><td>Antissimétrica</td><td>aRb ∧ bRa ⟹ a=b</td><td>≤ em ℤ</td></tr><tr><td>Transitiva</td><td>aRb ∧ bRc ⟹ aRc</td><td>"é ancestral de"</td></tr></table></div>
+    <div class="theorem"><div class="thm-title">Relação de Equivalência</div><p>R é de equivalência ⟺ Reflexiva + Simétrica + Transitiva. As classes de equivalência formam uma partição do conjunto.</p></div>
+<pre><span class="cm">Classes mod 3 em A={0,1,2,3,4,5}:</span>
+[0] = {0, 3}
+[1] = {1, 4}
+[2] = {2, 5}  ← partição de A</pre>
+  </div></section>
+
+  <!-- ─── PROBABILIDADE ─── -->
+  <section id="s1-prob"><div class="container fi">
+    <div class="sec-label">20 · Matemática</div>
+    <h2>Probabilidade & Teorema de Bayes</h2>
+    <div class="formula"><div class="label">Probabilidade Condicional</div><div class="eq">P(A|B) = P(A∩B) / P(B)</div></div>
+    <div class="formula"><div class="label">Teorema de Bayes</div><div class="eq">P(A|B) = P(B|A)·P(A) / P(B)</div></div>
+    <div class="formula"><div class="label">Adição</div><div class="eq">P(A∪B) = P(A) + P(B) − P(A∩B)</div></div>
+<pre><span class="cm">Bayes — Teste médico:</span>
+P(doença)=0.001, P(+|doença)=0.99, P(+|saudável)=0.05
+
+P(+) = 0.99×0.001 + 0.05×0.999 = 0.05094
+
+P(doença|+) = 0.99×0.001 / 0.05094 ≈ <span class="num">1.94%</span>
+<span class="cm">Mesmo positivo, só ~2% de chance! Doença é rara.</span></pre>
+  </div></section>
+
+  <!-- ─── VENN ─── -->
+  <section id="s1-venn"><div class="container fi">
+    <div class="sec-label">21 · Matemática Discreta</div>
+    <h2>Diagrama de Venn & Conjuntos</h2>
+    <div class="tbl"><table><tr><th>Operação</th><th>Símbolo</th><th>Exemplo</th></tr><tr><td>União</td><td>A∪B</td><td>{1,2}∪{2,3}={1,2,3}</td></tr><tr><td>Interseção</td><td>A∩B</td><td>{1,2}∩{2,3}={2}</td></tr><tr><td>Diferença</td><td>A\B</td><td>{1,2}\{2,3}={1}</td></tr><tr><td>Complemento</td><td>Aᶜ</td><td>U={1..5},A={1,2}→Aᶜ={3,4,5}</td></tr></table></div>
+    <div class="formula"><div class="label">Inclusão-Exclusão</div><div class="eq">|A∪B| = |A| + |B| − |A∩B|</div><div class="desc">Ex: 18 estudam Mat, 15 Fís, 10 ambas → |M∪F| = 18+15−10 = 23</div></div>
+    <div class="formula"><div class="label">De Morgan para Conjuntos</div><div class="eq">(A∪B)ᶜ = Aᶜ∩Bᶜ  |  (A∩B)ᶜ = Aᶜ∪Bᶜ</div></div>
+  </div></section>
+
+  <!-- ─── PARTIÇÃO ─── -->
+  <section id="s1-particao"><div class="container fi">
+    <div class="sec-label">22 · Matemática Discreta</div>
+    <h2>Partição de Conjunto</h2>
+    <div class="theorem"><div class="thm-title">Definição</div><p>Coleção {A₁,…,Aₙ} de subconjuntos não-vazios tal que: (1) Aᵢ∩Aⱼ=∅ para i≠j e (2) A₁∪…∪Aₙ=A.</p></div>
+<pre>A={1,2,3,4,5,6}
+✅ {{1,3,5},{2,4,6}}   ← pares e ímpares
+❌ {{1,2,3},{3,4,5}}   ← 3 aparece duas vezes</pre>
+    <div class="tbl"><table><tr><th>n</th><th>B(n) — Número de Bell</th></tr><tr><td>1</td><td>1</td></tr><tr><td>2</td><td>2</td></tr><tr><td>3</td><td>5</td></tr><tr><td>4</td><td>15</td></tr><tr><td>5</td><td>52</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── BFS/DFS ─── -->
+  <section id="s1-busca"><div class="container fi">
+    <div class="sec-label">23 · IA & Algoritmos</div>
+    <h2>BFS & DFS</h2>
+    <div class="tbl"><table><tr><th>Aspecto</th><th>BFS</th><th>DFS</th></tr><tr><td>Estrutura</td><td>Fila (FIFO)</td><td>Pilha / Recursão</td></tr><tr><td>Caminho mínimo?</td><td class="g">Sim</td><td class="r">Não</td></tr><tr><td>Completo?</td><td class="g">Sim</td><td class="r">Não (ciclos)</td></tr><tr><td>Aplicações</td><td>Menor caminho, componentes</td><td>Ciclos, topológica, SCCs</td></tr><tr><td>Complexidade</td><td>O(V+E)</td><td>O(V+E)</td></tr></table></div>
+<pre><span class="kw">from</span> collections <span class="kw">import</span> deque
+<span class="kw">def</span> <span class="fn">bfs</span>(g, s):
+    vis={s}; fila=deque([s])
+    <span class="kw">while</span> fila:
+        v=fila.popleft(); <span class="fn">print</span>(v,end=<span class="str">' '</span>)
+        <span class="kw">for</span> u <span class="kw">in</span> g[v]:
+            <span class="kw">if</span> u <span class="kw">not in</span> vis: vis.add(u); fila.append(u)
+
+<span class="kw">def</span> <span class="fn">dfs</span>(g, v, vis=<span class="kw">None</span>):
+    <span class="kw">if</span> vis <span class="kw">is None</span>: vis=set()
+    vis.add(v); <span class="fn">print</span>(v,end=<span class="str">' '</span>)
+    <span class="kw">for</span> u <span class="kw">in</span> g[v]:
+        <span class="kw">if</span> u <span class="kw">not in</span> vis: <span class="fn">dfs</span>(g,u,vis)</pre>
+  </div></section>
+
+  <!-- ─── HEURÍSTICA ─── -->
+  <section id="s1-heuristica"><div class="container fi">
+    <div class="sec-label">24 · IA</div>
+    <h2>Busca Heurística — A*</h2>
+    <div class="formula"><div class="label">Função de Avaliação</div><div class="eq">f(n) = g(n) + h(n)</div><div class="desc">g(n) = custo real do início até n | h(n) = estimativa até o objetivo. A* é ótimo se h(n) for admissível (nunca superestima).</div></div>
+    <div class="tbl"><table><tr><th>Algoritmo</th><th>Completo?</th><th>Ótimo?</th></tr><tr><td>BFS</td><td class="g">Sim</td><td class="g">Sim (cost=1)</td></tr><tr><td>DFS</td><td class="r">Não</td><td class="r">Não</td></tr><tr><td>Greedy</td><td class="r">Não</td><td class="r">Não</td></tr><tr><td class="t">A*</td><td class="g">Sim</td><td class="g">Sim (h admissível)</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── ÁRVORE DE DECISÃO ─── -->
+  <section id="s1-adecisao"><div class="container fi">
+    <div class="sec-label">25 · Machine Learning</div>
+    <h2>Árvore de Decisão</h2>
+    <div class="formula"><div class="label">Entropia (ID3)</div><div class="eq">H(S) = −∑ pᵢ · log₂(pᵢ)</div><div class="desc">Ganho(S,A) = H(S) − ∑|Sv|/|S|·H(Sv). Escolhe atributo com maior ganho de informação.</div></div>
+<pre><span class="cm">14 amostras: 9(+), 5(−)</span>
+H(S) = −(9/14)log₂(9/14) − (5/14)log₂(5/14) = <span class="num">0.940 bits</span></pre>
+    <div class="callout warn"><div class="callout-icon">⚠️</div><div class="callout-body"><strong>Overfitting</strong><p>Árvore profunda memoriza o treino mas generaliza mal. Use poda (max_depth) ou Random Forest.</p></div></div>
+  </div></section>
+
+  <!-- ─── PARALELA ─── -->
+  <section id="s1-paralela"><div class="container fi">
+    <div class="sec-label">26 · Paralelismo</div>
+    <h2>Computação Paralela</h2>
+    <div class="cards"><div class="card"><h4>Paralelismo de Dados</h4><p>Mesma operação em múltiplos dados (GPU, SIMD).</p></div><div class="card"><h4>Paralelismo de Tarefas</h4><p>Tarefas diferentes simultaneamente.</p></div><div class="card"><h4>Pipeline</h4><p>Estágios em série processando itens diferentes ao mesmo tempo.</p></div></div>
+  </div></section>
+
+  <!-- ─── IMAGENS ─── -->
+  <section id="s1-imagens"><div class="container fi">
+    <div class="sec-label">27 · Processamento de Imagens</div>
+    <h2>Processamento de Imagens</h2>
+    <div class="tbl"><table><tr><th>Tipo</th><th>Canais</th><th>Bits/pixel</th></tr><tr><td>Binária</td><td>1</td><td>1</td></tr><tr><td>Tons de cinza</td><td>1</td><td>8</td></tr><tr><td>RGB</td><td>3</td><td>24</td></tr><tr><td>RGBA</td><td>4</td><td>32</td></tr></table></div>
+    <div class="formula"><div class="label">Convolução</div><div class="eq">saída[i,j] = ΣΣ imagem[i+m,j+n] × kernel[m,n]</div><div class="desc">Blur: kernel 3×3 todos 1/9 | Borda (Laplaciano): [-1,-1,-1,-1,8,-1,-1,-1,-1]</div></div>
+  </div></section>
+
+  <!-- ─── TESTES ─── -->
+  <section id="s1-testes"><div class="container fi">
+    <div class="sec-label">28 · Engenharia de Software</div>
+    <h2>Testes de Software</h2>
+    <div class="diagram">       ╱────────────────────────╲
+      ╱   E2E / UI Tests          ╲  ← poucos, lentos
+     ╱──────────────────────────────╲
+    ╱     Testes de Integração       ╲
+   ╱────────────────────────────────────╲
+  ╱          Testes Unitários            ╲ ← muitos, rápidos</div>
+    <div class="tbl"><table><tr><th>Técnica</th><th>Conhece implementação?</th><th>Foco</th></tr><tr><td>Caixa Branca</td><td class="g">Sim</td><td>Caminhos, branches, cobertura</td></tr><tr><td>Caixa Preta</td><td class="r">Não</td><td>Entradas/saídas, partição de equivalência</td></tr><tr><td>TDD</td><td>—</td><td>Red → Green → Refactor</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── DWH ─── -->
+  <section id="s1-dwh"><div class="container fi">
+    <div class="sec-label">29 · Business Intelligence</div>
+    <h2>Data Warehouse, OLAP & ETL</h2>
+    <div class="diagram">Sistemas Operacionais + Legados + Externos
+              ↓  ETL (Extract → Transform → Load)
+          ┌──────────────────────────┐
+          │      DATA WAREHOUSE      │
+          └───┬──────────┬───────────┘
+         Data Mart    Data Mart
+         Vendas       Finanças
+              ↓
+        OLAP / BI Dashboards</div>
+    <div class="tbl"><table><tr><th>Operação OLAP</th><th>Ação</th><th>Exemplo</th></tr><tr><td>Drill-down</td><td>Mais detalhe</td><td>Ano→Mês→Dia</td></tr><tr><td>Roll-up</td><td>Menos detalhe</td><td>Cidade→Estado→País</td></tr><tr><td>Slice</td><td>Filtro 1D</td><td>Só Q1</td></tr><tr><td>Dice</td><td>Filtro multi-dim</td><td>Q1+Sul+Produto X</td></tr></table></div>
+    <div class="formula"><div class="label">Normalização de Dados</div><div class="eq">Min-Max: x' = (x−min)/(max−min)  |  Z-score: x' = (x−μ)/σ</div></div>
+  </div></section>
+</div><!-- /main-s1 -->
+</div><!-- /s1 -->
+
+<!-- ═══════════════════════════════════════
+     SUBJECT 2 — COMPLEXIDADE DE ALGORITMOS
+═══════════════════════════════════════ -->
+<div id="s2" class="page">
+
+<nav id="sidebar-2">
+  <div class="sb-header">
+    <button class="sb-back" onclick="goHome()">← Voltar ao início</button>
+    <div class="sb-subject-name">Complexidade de <em>Algoritmos</em></div>
+    <input class="sb-search" type="text" placeholder="Buscar…" oninput="filterSB(this,'s2')">
+  </div>
+  <div class="sb-nav" id="nav-s2">
+    <div class="sb-cat">Fundamentos</div>
+    <a class="sb-link" href="#s2-log"><span class="sb-dot" style="background:#2dd4bf"></span>Logaritmos</a>
+    <a class="sb-link" href="#s2-iter"><span class="sb-dot" style="background:#2dd4bf"></span>Iteração vs Recursão</a>
+    <div class="sb-cat">Algoritmos Clássicos</div>
+    <a class="sb-link" href="#s2-fib"><span class="sb-dot" style="background:#f59e0b"></span>Fibonacci</a>
+    <a class="sb-link" href="#s2-fat"><span class="sb-dot" style="background:#f59e0b"></span>Fatorial</a>
+    <div class="sb-cat">Técnicas Avançadas</div>
+    <a class="sb-link" href="#s2-dc"><span class="sb-dot" style="background:#a78bfa"></span>Divisão e Conquista</a>
+    <a class="sb-link" href="#s2-pd"><span class="sb-dot" style="background:#a78bfa"></span>Programação Dinâmica</a>
+    <a class="sb-link" href="#s2-num"><span class="sb-dot" style="background:#a78bfa"></span>Método Numérico</a>
+    <div class="sb-cat">Resumão</div>
+    <a class="sb-link" href="#s2-resumo"><span class="sb-dot" style="background:#4ade80"></span>Resumo para a Prova</a>
+  </div>
+</nav>
+
+<div class="subject-main" id="main-s2">
+  <div class="s-hero">
+    <div class="s-hero-label">⚙️ Prova 2</div>
+    <h1>Complexidade de <em>Algoritmos</em></h1>
+    <p>Recursão, iteração, análise de complexidade com exemplos em Java, Python e Pseudocódigo — tudo explicado sem termos complicados.</p>
+    <div class="s-chips">
+      <span class="s-chip">Logaritmos</span><span class="s-chip">Iteração vs Recursão</span>
+      <span class="s-chip">Fibonacci O(2ⁿ)</span><span class="s-chip">Fatorial O(n)</span>
+      <span class="s-chip">Merge Sort O(n log n)</span><span class="s-chip">Memoização</span>
+    </div>
+  </div>
+
+  <!-- ─── LOGARITMOS ─── -->
+  <section id="s2-log"><div class="container fi">
+    <div class="sec-label">01 · Fundamentos Matemáticos</div>
+    <h2>Logaritmos</h2>
+    <p class="sec-intro">Logaritmo responde: <strong>"que potência preciso para chegar nesse número?"</strong></p>
+    <div class="formula"><div class="label">Definição</div><div class="eq">logₐ b = x  ↔  aˣ = b  (a≠1, a>0, b>0)</div><div class="desc">log₂ 8 = 3 porque 2³=8 | log₁₀ 1000=3 porque 10³=1000 | logₐ 1=0 porque a⁰=1</div></div>
+    <div class="tbl"><table><tr><th>Propriedade</th><th>Fórmula</th><th>Exemplo numérico</th></tr><tr><td>Log da unidade</td><td>logₐ 1 = 0</td><td>log₂ 1 = 0</td></tr><tr><td>Log da base</td><td>logₐ a = 1</td><td>log₂ 2 = 1</td></tr><tr><td>Potenciação</td><td>a^(logₐ b) = b</td><td>2^(log₂ 8) = 8</td></tr><tr><td>Produto</td><td>logₐ(b·c) = logₐ b + logₐ c</td><td>log₂(4·8) = 2+3 = 5</td></tr><tr><td>Quociente</td><td>logₐ(b/c) = logₐ b − logₐ c</td><td>log₂(8/4) = 3−2 = 1</td></tr><tr><td>Potência</td><td>logₐ bᶜ = c·logₐ b</td><td>log₂ 8³ = 3·3 = 9</td></tr><tr><td>Mudança de base</td><td>logₐ b = log꜀ b / log꜀ a</td><td>log₂ 8 = ln8/ln2 = 3</td></tr><tr><td>Log inverso</td><td>logₐ b · logb a = 1</td><td>log₂ 8 · log₈ 2 = 1</td></tr></table></div>
+    <div class="callout info"><div class="callout-icon">🔗</div><div class="callout-body"><strong>Conexão com O(log n)</strong><p>Na busca binária, cada passo divide o problema pela metade. 1.024 itens → log₂ 1024 = 10 passos. 1 bilhão de itens → log₂ 10⁹ ≈ 30 passos. Isso é o poder do logaritmo!</p></div></div>
+  </div></section>
+
+  <!-- ─── ITERAÇÃO VS RECURSÃO ─── -->
+  <section id="s2-iter"><div class="container fi">
+    <div class="sec-label">02 · Fundamentos</div>
+    <h2>Iteração vs Recursão</h2>
+    <div class="cards">
+      <div class="card" style="border-color:rgba(59,130,246,.25)"><div class="card-icon" style="background:rgba(59,130,246,.15)">🔁</div><h4>Iterativo</h4><p>Usa for/while. Memória O(1) — uma variável acumuladora. Mais rápido, sem risco de Stack Overflow.</p></div>
+      <div class="card" style="border-color:rgba(108,99,255,.25)"><div class="card-icon" style="background:rgba(108,99,255,.15)">🔄</div><h4>Recursivo</h4><p>Função chama a si mesma. Memória O(n) — cria pilha de chamadas. Mais elegante, risco de Stack Overflow.</p></div>
+    </div>
+    <div class="diagram">Pilha de chamadas de fatorial(4):
+
+fatorial(4) chama fatorial(3)
+  fatorial(3) chama fatorial(2)
+    fatorial(2) chama fatorial(1)
+      fatorial(1) → retorna 1  ← CASO BASE
+    fatorial(2) → retorna 2×1 = 2
+  fatorial(3) → retorna 3×2 = 6
+fatorial(4) → retorna 4×6 = 24
+
+4 frames na pilha = O(n) memória</div>
+    <div class="theorem"><div class="thm-title">Regra de Ouro</div><p>"Todo algoritmo recursivo tem um equivalente iterativo." A recursão usa mais memória (pilha), mas o código tende a ser mais legível para problemas naturalmente recursivos.</p></div>
+  </div></section>
+
+  <!-- ─── FIBONACCI ─── -->
+  <section id="s2-fib"><div class="container fi">
+    <div class="sec-label">03 · Algoritmos Clássicos</div>
+    <h2>Fibonacci</h2>
+    <p class="sec-intro">Sequência: <strong>0, 1, 1, 2, 3, 5, 8, 13, 21…</strong> cada número = soma dos dois anteriores.</p>
+    <div class="formula"><div class="label">Definição</div><div class="eq">f(0)=0, f(1)=1, f(n) = f(n-1) + f(n-2)  para n≥2</div></div>
+
+    <h3>Versão Iterativa — O(n) tempo, O(1) espaço</h3>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="tab(this,'s2fi','java')">Java</button>
+      <button class="tab-btn" onclick="tab(this,'s2fi','py')">Python</button>
+      <button class="tab-btn" onclick="tab(this,'s2fi','ps')">Pseudocódigo</button>
+    </div>
+    <div id="s2fi-java" class="tab-panel active">
+<pre><span class="kw">int</span> a = <span class="num">0</span>, b = <span class="num">1</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i = <span class="num">0</span>; i &lt; n; i++) { <span class="cm">// O(n)</span>
+    System.out.print(a + <span class="str">" "</span>); <span class="cm">// O(1)</span>
+    <span class="kw">int</span> temp = a;
+    a = b;
+    b = temp + b;              <span class="cm">// O(1)</span>
+}
+<span class="cm">// Total: O(n) | Espaço: O(1) — só a, b, temp</span></pre>
+    </div>
+    <div id="s2fi-py" class="tab-panel">
+<pre><span class="kw">def</span> <span class="fn">fib_iter</span>(n):
+    a, b = <span class="num">0</span>, <span class="num">1</span>
+    <span class="kw">for</span> _ <span class="kw">in</span> <span class="fn">range</span>(n):    <span class="cm"># O(n)</span>
+        <span class="fn">print</span>(a, end=<span class="str">" "</span>)
+        a, b = b, a + b  <span class="cm"># O(1) — troca simultânea!</span>
+<span class="cm"># Total: O(n) | Espaço: O(1)</span></pre>
+    </div>
+    <div id="s2fi-ps" class="tab-panel">
+<pre>a ← 0; b ← 1
+para i de 0 até n-1 faça   <span class="cm">// O(n)</span>
+    imprimir(a)
+    temp ← a; a ← b; b ← temp + b
+fim-para
+<span class="cm">// O(4n + constantes) = O(n)</span></pre>
+    </div>
+
+    <h3>Versão Recursiva — O(2ⁿ) tempo, O(n) espaço</h3>
+    <div class="callout warn"><div class="callout-icon">⚠️</div><div class="callout-body"><strong>Por que O(2ⁿ)?</strong><p>Cada chamada gera 2 chamadas menores. fib(5)=15 chamadas. fib(30)&gt;1 bilhão! Subproblemas recalculados repetidamente.</p></div></div>
+    <div class="diagram">Árvore de chamadas de fib(4):
+fib(4)
+├── fib(3)
+│   ├── fib(2)
+│   │   ├── fib(1) → 1
+│   │   └── fib(0) → 0
+│   └── fib(1) → 1
+└── fib(2)  ← calculado de NOVO! desperdício
+    ├── fib(1) → 1
+    └── fib(0) → 0</div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="tab(this,'s2fr','java')">Java</button>
+      <button class="tab-btn" onclick="tab(this,'s2fr','py')">Python</button>
+    </div>
+    <div id="s2fr-java" class="tab-panel active">
+<pre><span class="kw">public static int</span> <span class="fn">fib</span>(<span class="kw">int</span> n) {
+    <span class="kw">if</span> (n &lt;= <span class="num">1</span>) <span class="kw">return</span> n;           <span class="cm">// O(1) caso base</span>
+<span class="hl">    <span class="kw">return</span> <span class="fn">fib</span>(n-<span class="num">1</span>) + <span class="fn">fib</span>(n-<span class="num">2</span>);   <span class="cm">// 2 chamadas → O(2ⁿ)!</span></span>
+}
+<span class="cm">// Cada nível tem o dobro de chamadas do anterior.</span></pre>
+    </div>
+    <div id="s2fr-py" class="tab-panel">
+<pre><span class="kw">def</span> <span class="fn">fib_rec</span>(n):
+    <span class="kw">if</span> n &lt;= <span class="num">1</span>: <span class="kw">return</span> n
+<span class="hl">    <span class="kw">return</span> <span class="fn">fib_rec</span>(n-<span class="num">1</span>) + <span class="fn">fib_rec</span>(n-<span class="num">2</span>)  <span class="cm"># O(2ⁿ)</span></span></pre>
+    </div>
+
+    <div class="tbl"><table><tr><th>Versão</th><th>Tempo</th><th>Espaço</th><th>Observação</th></tr><tr><td>Iterativa</td><td><span class="pill pg">O(n)</span></td><td><span class="pill pg">O(1)</span></td><td>✅ Melhor para uso prático</td></tr><tr><td>Recursiva pura</td><td><span class="pill pr">O(2ⁿ)</span></td><td><span class="pill po">O(n)</span></td><td>❌ Inviável para n&gt;40</td></tr><tr><td>Com Memoização</td><td><span class="pill pg">O(n)</span></td><td><span class="pill po">O(n)</span></td><td>✅ Elegância + eficiência</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── FATORIAL ─── -->
+  <section id="s2-fat"><div class="container fi">
+    <div class="sec-label">04 · Algoritmos Clássicos</div>
+    <h2>Fatorial</h2>
+    <div class="formula"><div class="label">Definição</div><div class="eq">0!=1  |  n! = n × (n-1)!</div><div class="desc">5!=120 | 10!=3.628.800</div></div>
+    <div class="tabs">
+      <button class="tab-btn active" onclick="tab(this,'s2fat','iter')">Iterativo (Java)</button>
+      <button class="tab-btn" onclick="tab(this,'s2fat','rec')">Recursivo (Python)</button>
+      <button class="tab-btn" onclick="tab(this,'s2fat','ps')">Pseudocódigo</button>
+    </div>
+    <div id="s2fat-iter" class="tab-panel active">
+<pre><span class="kw">int</span> resultado = <span class="num">1</span>;
+<span class="kw">for</span> (<span class="kw">int</span> i=<span class="num">1</span>; i&lt;=n; i++) { <span class="cm">// O(n)</span>
+    resultado *= i;          <span class="cm">// O(1)</span>
+}
+<span class="cm">// Tempo: O(n) | Espaço: O(1) — uma variável</span></pre>
+    </div>
+    <div id="s2fat-rec" class="tab-panel">
+<pre><span class="kw">def</span> <span class="fn">fat</span>(n):
+    <span class="kw">if</span> n &lt;= <span class="num">1</span>: <span class="kw">return</span> <span class="num">1</span>  <span class="cm"># caso base</span>
+    <span class="kw">return</span> n * <span class="fn">fat</span>(n-<span class="num">1</span>)  <span class="cm"># 1 chamada recursiva → O(n)</span>
+<span class="cm"># Tempo: O(n) | Espaço: O(n) — n frames na pilha</span></pre>
+    </div>
+    <div id="s2fat-ps" class="tab-panel">
+<pre>resultado ← 1
+para i de 1 até n faça     <span class="cm">// O(n)</span>
+    resultado ← resultado * i
+fim-para
+imprimir(resultado)
+<span class="cm">// O(1) + O(n)×O(1) + O(1) = O(n)</span></pre>
+    </div>
+    <div class="callout tip"><div class="callout-icon">🎯</div><div class="callout-body"><strong>Dica de prova</strong><p>Fatorial recursivo é O(n) — NÃO O(2ⁿ)! Porque cada chamada gera apenas uma chamada filha, diferente do Fibonacci que gera duas. A diferença é só no espaço: iterativo O(1), recursivo O(n).</p></div></div>
+  </div></section>
+
+  <!-- ─── DIVISÃO E CONQUISTA ─── -->
+  <section id="s2-dc"><div class="container fi">
+    <div class="sec-label">05 · Técnicas Avançadas</div>
+    <h2>Divisão e Conquista</h2>
+    <div class="steps">
+      <div class="step-item"><div><div class="si-title">Divisão</div><div class="si-desc">Divide o problema em subproblemas menores do mesmo tipo.</div></div></div>
+      <div class="step-item"><div><div class="si-title">Conquista</div><div class="si-desc">Resolve os subproblemas recursivamente até o caso base.</div></div></div>
+      <div class="step-item"><div><div class="si-title">Combinação</div><div class="si-desc">Junta as respostas dos subproblemas para obter a resposta final.</div></div></div>
+    </div>
+    <h3>Merge Sort — O(n log n)</h3>
+    <div class="diagram">[5, 3, 8, 1, 9, 2]
+       ↓ DIVISÃO
+[5,3,8]        [1,9,2]
+  ↓                ↓
+[5,3] [8]      [1,9] [2]
+  ↓                ↓
+[5][3]           [1][9]
+       ↓ CONQUISTA + COMBINAÇÃO
+[3,5] + [8] → [3,5,8]
+[1,9] + [2] → [1,2,9]
+[3,5,8] + [1,2,9] → [1,2,3,5,8,9] ✓
+
+Por que O(n log n)?
+log₂ n níveis × O(n) trabalho de mesclagem por nível</div>
+<pre><span class="kw">def</span> <span class="fn">merge_sort</span>(arr):
+    <span class="kw">if</span> <span class="fn">len</span>(arr) &lt;= <span class="num">1</span>: <span class="kw">return</span> arr    <span class="cm"># caso base</span>
+    meio = <span class="fn">len</span>(arr) // <span class="num">2</span>
+    esq = <span class="fn">merge_sort</span>(arr[:meio])    <span class="cm"># conquista esq</span>
+    dir = <span class="fn">merge_sort</span>(arr[meio:])    <span class="cm"># conquista dir</span>
+    <span class="kw">return</span> <span class="fn">mesclar</span>(esq, dir)         <span class="cm"># combina</span></pre>
+  </div></section>
+
+  <!-- ─── PROG. DINÂMICA ─── -->
+  <section id="s2-pd"><div class="container fi">
+    <div class="sec-label">06 · Técnicas Avançadas</div>
+    <h2>Programação Dinâmica</h2>
+    <p class="sec-intro">Evita cálculos repetidos <strong>guardando resultados já calculados numa tabela (cache)</strong>.</p>
+    <div class="theorem"><div class="thm-title">Essência</div><p>Se um problema tem <strong>subproblemas sobrepostos</strong> (mesmos cálculos se repetem) e uma <strong>estrutura ótima</strong>, use Programação Dinâmica para ir de O(2ⁿ) para O(n).</p></div>
+    <h3>Top-Down com Memoização</h3>
+<pre>memo = {}
+<span class="kw">def</span> <span class="fn">fib_memo</span>(n):
+    <span class="kw">if</span> n <span class="kw">in</span> memo: <span class="kw">return</span> memo[n]  <span class="cm"># já calculado? retorna!</span>
+    <span class="kw">if</span> n &lt;= <span class="num">1</span>: <span class="kw">return</span> n
+    memo[n] = <span class="fn">fib_memo</span>(n-<span class="num">1</span>) + <span class="fn">fib_memo</span>(n-<span class="num">2</span>)
+    <span class="kw">return</span> memo[n]              <span class="cm"># salva e retorna</span>
+<span class="cm"># Cada subproblema calculado apenas 1x → O(n)!</span></pre>
+    <h3>Bottom-Up (Tabulação)</h3>
+<pre><span class="kw">def</span> <span class="fn">fib_bottom</span>(n):
+    tab = [<span class="num">0</span>] * (n+<span class="num">1</span>); tab[<span class="num">1</span>] = <span class="num">1</span>
+    <span class="kw">for</span> i <span class="kw">in</span> <span class="fn">range</span>(<span class="num">2</span>, n+<span class="num">1</span>):  <span class="cm"># constrói de baixo para cima</span>
+        tab[i] = tab[i-<span class="num">1</span>] + tab[i-<span class="num">2</span>]
+    <span class="kw">return</span> tab[n]
+<span class="cm"># tab = [0,1,1,2,3,5,8,...] sem recursão!</span></pre>
+    <div class="tbl"><table><tr><th>Abordagem</th><th>Usa Recursão?</th><th>Tempo</th><th>Espaço</th></tr><tr><td>Recursiva pura</td><td>Sim</td><td><span class="pill pr">O(2ⁿ)</span></td><td><span class="pill po">O(n)</span></td></tr><tr><td>Top-Down + Memo</td><td>Sim</td><td><span class="pill pg">O(n)</span></td><td><span class="pill po">O(n)</span></td></tr><tr><td>Bottom-Up</td><td>Não</td><td><span class="pill pg">O(n)</span></td><td><span class="pill pg">O(1)*</span></td></tr></table></div>
+  </div></section>
+
+  <!-- ─── MÉTODO NUMÉRICO ─── -->
+  <section id="s2-num"><div class="container fi">
+    <div class="sec-label">07 · Métodos Computacionais</div>
+    <h2>Método Numérico</h2>
+    <p class="sec-intro">Algoritmos que calculam <strong>aproximações cada vez melhores</strong> de uma resposta, iterando até o erro ser suficientemente pequeno.</p>
+    <div class="callout info"><div class="callout-icon">💡</div><div class="callout-body"><strong>O que é "erro" em matemática?</strong><p>"Erro" não significa estar errado! É a diferença entre o valor exato e o valor aproximado. O algoritmo itera até que erro &lt; ε (épsilon definido pelo programador).</p></div></div>
+    <div class="formula"><div class="label">Critério de Parada</div><div class="eq">|valor_exato − valor_aproximado| &lt; ε</div></div>
+<pre><span class="cm"># Raiz quadrada pelo Método de Newton</span>
+<span class="kw">def</span> <span class="fn">raiz</span>(x, eps=<span class="num">0.0001</span>):
+    est = x / <span class="num">2</span>               <span class="cm"># chute inicial</span>
+    <span class="kw">while</span> <span class="fn">abs</span>(est**<span class="num">2</span> - x) > eps: <span class="cm"># erro > limite?</span>
+        est = (est + x/est) / <span class="num">2</span>  <span class="cm"># melhora estimativa</span>
+    <span class="kw">return</span> est
+
+<span class="cm"># raiz(2): 1.5 → 1.4167 → 1.4142 → para! (≈√2)</span></pre>
+    <div class="cards"><div class="card"><h4>Convergência</h4><p>Cada iteração aproxima mais da resposta real.</p></div><div class="card"><h4>Erro controlado</h4><p>Para quando erro &lt; ε definido pelo programador.</p></div><div class="card"><h4>Sempre iterativo</h4><p>Usa while/for — nunca recursão pura.</p></div></div>
+  </div></section>
+
+  <!-- ─── RESUMO ─── -->
+  <section id="s2-resumo"><div class="container fi">
+    <div class="sec-label">08 · Resumão</div>
+    <h2>Resumo para a Prova</h2>
+    <div class="tbl"><table><tr><th>Algoritmo</th><th>Versão</th><th>Tempo</th><th>Espaço</th><th>Por quê?</th></tr><tr><td>Fibonacci</td><td>Iterativo</td><td><span class="pill pg">O(n)</span></td><td><span class="pill pg">O(1)</span></td><td>Loop simples, 2 variáveis</td></tr><tr><td>Fibonacci</td><td>Recursivo puro</td><td><span class="pill pr">O(2ⁿ)</span></td><td><span class="pill po">O(n)</span></td><td>2 chamadas por nível</td></tr><tr><td>Fibonacci</td><td>Com Memoização</td><td><span class="pill pg">O(n)</span></td><td><span class="pill po">O(n)</span></td><td>Cada valor calculado 1x</td></tr><tr><td>Fatorial</td><td>Iterativo</td><td><span class="pill pg">O(n)</span></td><td><span class="pill pg">O(1)</span></td><td>Loop simples</td></tr><tr><td>Fatorial</td><td>Recursivo</td><td><span class="pill pg">O(n)</span></td><td><span class="pill po">O(n)</span></td><td>1 chamada por nível</td></tr><tr><td>Merge Sort</td><td>Div. & Conquista</td><td><span class="pill pb">O(n log n)</span></td><td><span class="pill po">O(n)</span></td><td>log n níveis × n trabalho</td></tr></table></div>
+    <div style="background:rgba(108,99,255,.1);border:1px solid rgba(108,99,255,.25);border-radius:14px;padding:28px;margin-top:24px;text-align:center;">
+      <div style="font-size:28px;margin-bottom:10px">🎓</div>
+      <div style="font-family:'DM Serif Display',serif;font-size:20px;color:#fff;margin-bottom:6px">Frases-Chave</div>
+      <div style="color:var(--muted);font-size:13px;line-height:2">
+        "Todo algoritmo recursivo tem um equivalente iterativo."<br>
+        "Fibonacci recursivo puro é O(2ⁿ) porque gera 2 chamadas por nível."<br>
+        "Fatorial recursivo é O(n) — 1 chamada por nível!"<br>
+        "Memoização = guardar resultados já calculados."<br>
+        "Divisão e Conquista: Divide → Resolve → Combina."<br>
+        "log₂ n = quantas vezes posso dividir n por 2 até chegar a 1?"
+      </div>
+    </div>
+  </div></section>
+</div><!-- /main-s2 -->
+</div><!-- /s2 -->
+
+<!-- ═══════════════════════════════════════
+     SUBJECT 3 — TEORIA DOS GRAFOS (TONNY)
+═══════════════════════════════════════ -->
+<div id="s3" class="page">
+
+<nav id="sidebar-3">
+  <div class="sb-header">
+    <button class="sb-back" onclick="goHome()">← Voltar ao início</button>
+    <div class="sb-subject-name">Teoria dos <em>Grafos</em></div>
+    <input class="sb-search" type="text" placeholder="Buscar…" oninput="filterSB(this,'s3')">
+  </div>
+  <div class="sb-nav" id="nav-s3">
+    <div class="sb-cat">Fundamentos</div>
+    <a class="sb-link" href="#s3-intro"><span class="sb-dot" style="background:#6c63ff"></span>Introdução</a>
+    <a class="sb-link" href="#s3-tipos"><span class="sb-dot" style="background:#6c63ff"></span>Tipos de Grafos</a>
+    <a class="sb-link" href="#s3-termo"><span class="sb-dot" style="background:#6c63ff"></span>Terminologia</a>
+    <a class="sb-link" href="#s3-repr"><span class="sb-dot" style="background:#6c63ff"></span>Representação</a>
+    <div class="sb-cat">Teoria</div>
+    <a class="sb-link" href="#s3-form"><span class="sb-dot" style="background:#a78bfa"></span>Fórmulas & Teoremas</a>
+    <a class="sb-link" href="#s3-prop"><span class="sb-dot" style="background:#a78bfa"></span>Propriedades Especiais</a>
+    <div class="sb-cat">Algoritmos</div>
+    <a class="sb-link" href="#s3-algo"><span class="sb-dot" style="background:#2dd4bf"></span>BFS, DFS & Dijkstra</a>
+    <div class="sb-cat">Aplicações</div>
+    <a class="sb-link" href="#s3-aplic"><span class="sb-dot" style="background:#4ade80"></span>Aplicações no Mundo Real</a>
+    <a class="sb-link" href="#s3-build"><span class="sb-dot" style="background:#4ade80"></span>Construtor Interativo</a>
+  </div>
+</nav>
+
+<div class="subject-main" id="main-s3">
+  <div class="s-hero">
+    <div class="s-hero-label">🕸️ Prova 3 — Prof. Tonny</div>
+    <h1>Teoria dos <em>Grafos</em></h1>
+    <p>Do conceito intuitivo às fórmulas avançadas — com exemplos interativos, algoritmos passo a passo e construtor de grafos no canvas.</p>
+    <div class="s-chips">
+      <span class="s-chip">G = (V,E)</span><span class="s-chip">Handshaking Lemma</span>
+      <span class="s-chip">BFS interativo</span><span class="s-chip">Dijkstra</span>
+      <span class="s-chip">Euleriano</span><span class="s-chip">Fórmula de Euler</span>
+    </div>
+  </div>
+
+  <!-- ─── INTRODUÇÃO ─── -->
+  <section id="s3-intro"><div class="container fi">
+    <div class="sec-label">01 · Fundamentos</div>
+    <h2>O que é um Grafo?</h2>
+    <p class="sec-intro">Um grafo G = (V, E) é uma estrutura matemática composta por <strong>vértices</strong> (nós) e <strong>arestas</strong> (conexões) que modelam relações entre objetos.</p>
+    <div class="formula"><div class="label">Definição Formal</div><div class="eq">G = (V, E)   onde  E ⊆ V × V</div><div class="desc">|V| = n (ordem do grafo) | |E| = m (tamanho do grafo)</div></div>
+    <div class="callout info"><div class="callout-icon">🔷</div><div class="callout-body"><strong>Origem Histórica</strong><p>Leonhard Euler (1736) resolveu o Problema das Sete Pontes de Königsberg — o primeiro teorema de teoria de grafos. Ele provou ser impossível cruzar cada uma das 7 pontes exatamente uma vez e retornar ao ponto de partida.</p></div></div>
+    <div class="cards"><div class="card"><div class="card-icon" style="background:rgba(108,99,255,.15)">●</div><h4>Vértice (nó)</h4><p>Entidade fundamental. Cidades, pessoas, páginas web, variáveis.</p></div><div class="card"><div class="card-icon" style="background:rgba(45,212,191,.15)">—</div><h4>Aresta (arco)</h4><p>Conexão entre dois vértices. Estradas, amizades, links, dependências.</p></div><div class="card"><div class="card-icon" style="background:rgba(245,158,11,.15)">d(v)</div><h4>Grau</h4><p>Número de arestas incidentes num vértice. Em dígrafos: in-degree e out-degree.</p></div><div class="card"><div class="card-icon" style="background:rgba(74,222,128,.15)">∩</div><h4>Subgrafo</h4><p>H=(V',E') onde V'⊆V e E'⊆E. Se V'=V, é subgrafo gerador.</p></div></div>
+  </div></section>
+
+  <!-- ─── TIPOS ─── -->
+  <section id="s3-tipos"><div class="container fi">
+    <div class="sec-label">02 · Tipos</div>
+    <h2>Tipos de Grafos</h2>
+    <div class="svg-row">
+      <div class="svg-card"><svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg"><line x1="50" y1="65" x2="130" y2="35" stroke="#6c63ff" stroke-width="1.5" opacity=".7"/><line x1="50" y1="65" x2="130" y2="95" stroke="#6c63ff" stroke-width="1.5" opacity=".7"/><line x1="130" y1="35" x2="130" y2="95" stroke="#6c63ff" stroke-width="1.5" opacity=".7"/><circle cx="50" cy="65" r="10" fill="#1e1e24" stroke="#6c63ff" stroke-width="2"/><circle cx="130" cy="35" r="10" fill="#1e1e24" stroke="#6c63ff" stroke-width="2"/><circle cx="130" cy="95" r="10" fill="#1e1e24" stroke="#6c63ff" stroke-width="2"/><text x="50" y="69" text-anchor="middle" fill="#fff" font-size="9" font-family="Inter">A</text><text x="130" y="39" text-anchor="middle" fill="#fff" font-size="9" font-family="Inter">B</text><text x="130" y="99" text-anchor="middle" fill="#fff" font-size="9" font-family="Inter">C</text></svg><div class="svg-label">Simples<div class="svg-sub">Sem direção</div></div></div>
+      <div class="svg-card"><svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg"><defs><marker id="a3" markerWidth="6" markerHeight="6" refX="6" refY="3" orient="auto"><path d="M0,0 L6,3 L0,6 z" fill="#a78bfa"/></marker></defs><line x1="55" y1="60" x2="117" y2="35" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#a3)" opacity=".8"/><line x1="125" y1="42" x2="125" y2="86" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#a3)" opacity=".8"/><line x1="118" y1="95" x2="60" y2="72" stroke="#a78bfa" stroke-width="1.5" marker-end="url(#a3)" opacity=".8"/><circle cx="50" cy="65" r="10" fill="#1e1e24" stroke="#a78bfa" stroke-width="2"/><circle cx="125" cy="30" r="10" fill="#1e1e24" stroke="#a78bfa" stroke-width="2"/><circle cx="125" cy="95" r="10" fill="#1e1e24" stroke="#a78bfa" stroke-width="2"/><text x="50" y="69" text-anchor="middle" fill="#fff" font-size="9" font-family="Inter">A</text><text x="125" y="34" text-anchor="middle" fill="#fff" font-size="9" font-family="Inter">B</text><text x="125" y="99" text-anchor="middle" fill="#fff" font-size="9" font-family="Inter">C</text></svg><div class="svg-label">Dígrafo<div class="svg-sub">Com direção</div></div></div>
+      <div class="svg-card"><svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg"><line x1="50" y1="65" x2="130" y2="35" stroke="#2dd4bf" stroke-width="1.5" opacity=".7"/><line x1="50" y1="65" x2="130" y2="95" stroke="#2dd4bf" stroke-width="1.5" opacity=".7"/><line x1="130" y1="35" x2="130" y2="95" stroke="#2dd4bf" stroke-width="1.5" opacity=".7"/><text x="88" y="46" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="DM Mono,monospace">5</text><text x="88" y="92" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="DM Mono,monospace">3</text><text x="138" y="70" text-anchor="middle" fill="#f59e0b" font-size="10" font-family="DM Mono,monospace">7</text><circle cx="50" cy="65" r="10" fill="#1e1e24" stroke="#2dd4bf" stroke-width="2"/><circle cx="130" cy="35" r="10" fill="#1e1e24" stroke="#2dd4bf" stroke-width="2"/><circle cx="130" cy="95" r="10" fill="#1e1e24" stroke="#2dd4bf" stroke-width="2"/></svg><div class="svg-label">Ponderado<div class="svg-sub">Arestas com peso</div></div></div>
+      <div class="svg-card"><svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg"><line x1="90" y1="20" x2="50" y2="60" stroke="#4ade80" stroke-width="1.5"/><line x1="90" y1="20" x2="130" y2="60" stroke="#4ade80" stroke-width="1.5"/><line x1="50" y1="60" x2="30" y2="100" stroke="#4ade80" stroke-width="1.5"/><line x1="50" y1="60" x2="70" y2="100" stroke="#4ade80" stroke-width="1.5"/><line x1="130" y1="60" x2="110" y2="100" stroke="#4ade80" stroke-width="1.5"/><line x1="130" y1="60" x2="150" y2="100" stroke="#4ade80" stroke-width="1.5"/><circle cx="90" cy="20" r="9" fill="#1e1e24" stroke="#4ade80" stroke-width="2"/><circle cx="50" cy="60" r="9" fill="#1e1e24" stroke="#4ade80" stroke-width="2"/><circle cx="130" cy="60" r="9" fill="#1e1e24" stroke="#4ade80" stroke-width="2"/><circle cx="30" cy="100" r="7" fill="#1e1e24" stroke="#4ade80" stroke-width="1.5"/><circle cx="70" cy="100" r="7" fill="#1e1e24" stroke="#4ade80" stroke-width="1.5"/><circle cx="110" cy="100" r="7" fill="#1e1e24" stroke="#4ade80" stroke-width="1.5"/><circle cx="150" cy="100" r="7" fill="#1e1e24" stroke="#4ade80" stroke-width="1.5"/></svg><div class="svg-label">Árvore<div class="svg-sub">Conexo acíclico</div></div></div>
+      <div class="svg-card"><svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg"><g opacity=".6"><line x1="90" y1="18" x2="152" y2="60" stroke="#f87171" stroke-width="1"/><line x1="90" y1="18" x2="130" y2="118" stroke="#f87171" stroke-width="1"/><line x1="90" y1="18" x2="50" y2="118" stroke="#f87171" stroke-width="1"/><line x1="90" y1="18" x2="28" y2="60" stroke="#f87171" stroke-width="1"/><line x1="152" y1="60" x2="130" y2="118" stroke="#f87171" stroke-width="1"/><line x1="152" y1="60" x2="50" y2="118" stroke="#f87171" stroke-width="1"/><line x1="152" y1="60" x2="28" y2="60" stroke="#f87171" stroke-width="1"/><line x1="130" y1="118" x2="50" y2="118" stroke="#f87171" stroke-width="1"/><line x1="130" y1="118" x2="28" y2="60" stroke="#f87171" stroke-width="1"/><line x1="50" y1="118" x2="28" y2="60" stroke="#f87171" stroke-width="1"/></g><circle cx="90" cy="18" r="9" fill="#1e1e24" stroke="#f87171" stroke-width="2"/><circle cx="152" cy="60" r="9" fill="#1e1e24" stroke="#f87171" stroke-width="2"/><circle cx="130" cy="118" r="9" fill="#1e1e24" stroke="#f87171" stroke-width="2"/><circle cx="50" cy="118" r="9" fill="#1e1e24" stroke="#f87171" stroke-width="2"/><circle cx="28" cy="60" r="9" fill="#1e1e24" stroke="#f87171" stroke-width="2"/></svg><div class="svg-label">Completo K₅<div class="svg-sub">Todo par conectado</div></div></div>
+      <div class="svg-card"><svg viewBox="0 0 180 130" xmlns="http://www.w3.org/2000/svg"><line x1="50" y1="35" x2="130" y2="55" stroke="#f472b6" stroke-width="1" opacity=".7"/><line x1="50" y1="65" x2="130" y2="55" stroke="#f472b6" stroke-width="1" opacity=".7"/><line x1="50" y1="65" x2="130" y2="90" stroke="#f472b6" stroke-width="1" opacity=".7"/><line x1="50" y1="95" x2="130" y2="55" stroke="#f472b6" stroke-width="1" opacity=".7"/><circle cx="50" cy="35" r="9" fill="#1e1e24" stroke="#a78bfa" stroke-width="2"/><circle cx="50" cy="65" r="9" fill="#1e1e24" stroke="#a78bfa" stroke-width="2"/><circle cx="50" cy="95" r="9" fill="#1e1e24" stroke="#a78bfa" stroke-width="2"/><circle cx="130" cy="55" r="9" fill="#1e1e24" stroke="#f472b6" stroke-width="2"/><circle cx="130" cy="90" r="9" fill="#1e1e24" stroke="#f472b6" stroke-width="2"/></svg><div class="svg-label">Bipartido<div class="svg-sub">Dois conjuntos</div></div></div>
+    </div>
+    <div class="tbl"><table><tr><th>Tipo</th><th>Direção</th><th>Peso</th><th>Uso típico</th></tr><tr><td>Simples</td><td>Não</td><td>Não</td><td>Redes sociais básicas</td></tr><tr><td>Dígrafo</td><td>Sim</td><td>Não</td><td>Web, dependências</td></tr><tr><td>Ponderado</td><td>Opc.</td><td>Sim</td><td>GPS, rotas, custos</td></tr><tr><td>Bipartido</td><td>Não</td><td>Opc.</td><td>Recomendações, casamentos</td></tr><tr><td>Árvore</td><td>Não</td><td>Opc.</td><td>Hierarquias, XML, SO</td></tr><tr><td>Completo Kₙ</td><td>Não</td><td>Não</td><td>Análise de complexidade</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── TERMINOLOGIA ─── -->
+  <section id="s3-termo"><div class="container fi">
+    <div class="sec-label">03 · Conceitos</div>
+    <h2>Terminologia Essencial</h2>
+    <div class="formula"><div class="label">Lema do Aperto de Mão (Handshaking Lemma)</div><div class="eq">∑ d(vᵢ) = 2|E| = 2m</div><div class="desc">A soma dos graus de todos os vértices é sempre o dobro do número de arestas. Corolário: o número de vértices com grau ímpar é sempre par.</div></div>
+    <div class="formula"><div class="label">Grau Médio</div><div class="eq">d̄ = 2m / n</div><div class="desc">Exemplo: grafo com 4 vértices, 5 arestas → d̄ = 10/4 = 2,5</div></div>
+    <div class="formula"><div class="label">Teorema de Erdős–Gallai</div><div class="eq">∑ᵢ₌₁ᵏ dᵢ ≤ k(k-1) + ∑ᵢ₌ₖ₊₁ⁿ min(dᵢ, k)  para k=1..n</div><div class="desc">Condição necessária e suficiente para uma sequência de inteiros ser realizável como grafo simples.</div></div>
+    <div class="cards"><div class="card"><h4>Caminho (Path)</h4><p>Sequência de vértices sem repetição onde cada par consecutivo é adjacente.</p></div><div class="card"><h4>Ciclo</h4><p>Caminho fechado: inicial=final, comprimento ≥ 3.</p></div><div class="card"><h4>Distância d(u,v)</h4><p>Comprimento do menor caminho entre u e v.</p></div><div class="card"><h4>Diâmetro</h4><p>Maior distância entre qualquer par de vértices.</p></div><div class="card"><h4>Componente Conexa</h4><p>Subconjunto maximal com caminho entre todo par.</p></div><div class="card"><h4>Clique ω(G)</h4><p>Subconjunto de vértices todos mutuamente adjacentes.</p></div></div>
+  </div></section>
+
+  <!-- ─── REPRESENTAÇÃO ─── -->
+  <section id="s3-repr"><div class="container fi">
+    <div class="sec-label">04 · Estruturas de Dados</div>
+    <h2>Representação de Grafos</h2>
+    <h3>Matriz de Adjacência</h3>
+    <div class="formula"><div class="label">Definição</div><div class="eq">A[i][j] = 1  se (vᵢ,vⱼ) ∈ E,  caso contrário 0</div><div class="desc">Espaço: O(n²) | Verificar adj.: O(1) | Listar viz.: O(n)</div></div>
+    <p>Exemplo: V={1,2,3,4}, E={(1,2),(1,3),(2,4),(3,4)}:</p>
+    <div class="tbl"><table style="font-family:'DM Mono',monospace"><tr><th></th><th>1</th><th>2</th><th>3</th><th>4</th></tr><tr><th>1</th><td class="d">0</td><td class="t">1</td><td class="t">1</td><td>0</td></tr><tr><th>2</th><td class="t">1</td><td class="d">0</td><td>0</td><td class="t">1</td></tr><tr><th>3</th><td class="t">1</td><td>0</td><td class="d">0</td><td class="t">1</td></tr><tr><th>4</th><td>0</td><td class="t">1</td><td class="t">1</td><td class="d">0</td></tr></table></div>
+    <h3>Lista de Adjacência</h3>
+<pre><span class="cm"># Python — lista de adjacência</span>
+adj = {<span class="num">1</span>:[<span class="num">2</span>,<span class="num">3</span>], <span class="num">2</span>:[<span class="num">1</span>,<span class="num">4</span>], <span class="num">3</span>:[<span class="num">1</span>,<span class="num">4</span>], <span class="num">4</span>:[<span class="num">2</span>,<span class="num">3</span>]}
+<span class="cm"># ponderado:</span>
+adj = {<span class="num">1</span>:[(<span class="num">2</span>,<span class="num">5</span>),(<span class="num">3</span>,<span class="num">3</span>)], <span class="num">2</span>:[(<span class="num">1</span>,<span class="num">5</span>),(<span class="num">4</span>,<span class="num">7</span>)]}</pre>
+    <div class="tbl"><table><tr><th>Representação</th><th>Espaço</th><th>Adj(u,v)?</th><th>Ideal para</th></tr><tr><td>Matriz de Adj.</td><td>O(n²)</td><td class="t">O(1)</td><td>Grafos densos</td></tr><tr><td>Lista de Adj.</td><td>O(n+m)</td><td>O(deg(v))</td><td>Grafos esparsos</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── FÓRMULAS ─── -->
+  <section id="s3-form"><div class="container fi">
+    <div class="sec-label">05 · Matemática</div>
+    <h2>Fórmulas & Teoremas</h2>
+    <div class="formula"><div class="label">Grafos Completos Kₙ</div><div class="eq">|E(Kₙ)| = n(n-1)/2 = C(n,2)</div><div class="desc">K₅: 10 arestas | K₆: 15 arestas | grau de cada vértice: n-1</div></div>
+    <div class="formula"><div class="label">Árvores</div><div class="eq">|E| = n-1  |  T(Kₙ) = nⁿ⁻² (Fórmula de Cayley)</div><div class="desc">Uma árvore com n vértices tem sempre n-1 arestas. K₄ tem 4²=16 árvores geradoras distintas.</div></div>
+    <div class="formula"><div class="label">Fórmula de Euler (Grafos Planares)</div><div class="eq">V − E + F = 2</div><div class="desc">V=vértices, E=arestas, F=faces (incluindo exterior). Cubo: 8−12+6=2 ✓</div></div>
+    <div class="formula"><div class="label">Corolário Planaridade</div><div class="eq">m ≤ 3n−6  (grafos simples planares, n≥3)</div><div class="desc">K₅: m=10 > 3(5)−6=9 → K₅ NÃO é planar!</div></div>
+    <div class="formula"><div class="label">Número Cromático χ(G)</div><div class="eq">ω(G) ≤ χ(G) ≤ Δ(G)+1</div><div class="desc">Teorema das 4 Cores: χ(G)≤4 para todo grafo planar. ω(G)=maior clique | Δ(G)=grau máximo.</div></div>
+    <div class="formula"><div class="label">Max-Flow Min-Cut</div><div class="eq">fluxo_máximo(s,t) = capacidade_mínima_corte(s,t)</div></div>
+  </div></section>
+
+  <!-- ─── PROPRIEDADES ─── -->
+  <section id="s3-prop"><div class="container fi">
+    <div class="sec-label">06 · Propriedades</div>
+    <h2>Propriedades Especiais</h2>
+    <div class="cards"><div class="card"><h4>Grafo Euleriano</h4><p>Circuito que passa por cada aresta exatamente uma vez. Condição: conexo + todos vértices com grau par.</p></div><div class="card"><h4>Trilha Euleriana</h4><p>Caminho aberto por todas as arestas. Condição: conexo + exatamente 2 vértices de grau ímpar.</p></div><div class="card"><h4>Grafo Hamiltoniano</h4><p>Ciclo que visita cada vértice exatamente uma vez. Dirac: se d(v)≥n/2 para todo v → existe.</p></div><div class="card"><h4>Grafo Planar</h4><p>Pode ser desenhado sem cruzamento. Kuratowski: não contém subdivisão de K₅ nem K₃,₃.</p></div></div>
+    <div class="callout warn"><div class="callout-icon">⚠</div><div class="callout-body"><strong>Euleriano vs Hamiltoniano — Complexidade</strong><p>Detectar euleriano é O(V+E) — fácil! Hamiltoniano é NP-completo. O TSP (Caixeiro Viajante) é um hamiltoniano ponderado.</p></div></div>
+    <div class="tbl"><table><tr><th>Grafo</th><th>χ(G)</th><th>Euleriano?</th><th>Hamiltoniano?</th><th>Planar?</th></tr><tr><td>Kₙ (n≥3)</td><td>n</td><td>n ímpar</td><td class="g">Sim</td><td>n≤4</td></tr><tr><td>Ciclo Cₙ</td><td>2 ou 3</td><td class="g">Sim</td><td class="g">Sim</td><td class="g">Sim</td></tr><tr><td>Bipartido Kₘ,ₙ</td><td>2</td><td>m=n ímpar</td><td>m=n</td><td>m≤2 ou n≤2</td></tr><tr><td>Árvore</td><td>2</td><td>n=2</td><td>n=1,2</td><td class="g">Sim</td></tr><tr><td>Petersen</td><td>3</td><td class="r">❌</td><td class="r">❌</td><td class="r">❌</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── ALGORITMOS ─── -->
+  <section id="s3-algo"><div class="container fi">
+    <div class="sec-label">07 · Algoritmos</div>
+    <h2>BFS, DFS & Dijkstra</h2>
+
+    <h3>BFS — Passo a Passo Interativo</h3>
+    <div class="stepper">
+      <div class="step-controls">
+        <button class="btn" id="bfs-prev" onclick="stepBFS(-1)">← Anterior</button>
+        <button class="btn active" id="bfs-next" onclick="stepBFS(1)">Próximo →</button>
+        <button class="btn" onclick="resetBFS()">↺ Reiniciar</button>
+      </div>
+      <div class="step-dots" id="bfs-dots"></div>
+      <div class="step-display">
+        <div class="step-header">
+          <span class="title" id="bfs-title">BFS — Inicialização</span>
+          <span class="counter" id="bfs-counter">1 / 6</span>
+        </div>
+        <div class="step-body">
+          <svg id="bfs-svg" viewBox="0 0 500 180" width="100%" style="margin-bottom:10px;display:block"></svg>
+          <p id="bfs-desc">Marcamos o vértice fonte <strong style="color:#fff">s=A</strong> como visitado e adicionamos à fila.</p>
+        </div>
+      </div>
+    </div>
+
+    <div class="formula"><div class="label">Complexidade BFS</div><div class="eq">Tempo: O(V+E)  |  Espaço: O(V)</div><div class="desc">Garante caminho mínimo em grafos não ponderados. Usa fila FIFO.</div></div>
+
+    <h3>Dijkstra — Caminho Mínimo Ponderado</h3>
+    <div class="formula"><div class="label">Complexidade Dijkstra</div><div class="eq">O((V+E) log V)  com heap binário</div><div class="desc">Não funciona com pesos negativos → usar Bellman-Ford: O(V·E).</div></div>
+<pre><span class="kw">import</span> heapq
+<span class="kw">def</span> <span class="fn">dijkstra</span>(grafo, src):
+    dist = {v: float(<span class="str">'inf'</span>) <span class="kw">for</span> v <span class="kw">in</span> grafo}
+    dist[src] = <span class="num">0</span>; heap = [(<span class="num">0</span>, src)]
+    <span class="kw">while</span> heap:
+        d, u = heapq.heappop(heap)
+        <span class="kw">if</span> d > dist[u]: <span class="kw">continue</span>
+        <span class="kw">for</span> v, w <span class="kw">in</span> grafo[u]:
+            <span class="kw">if</span> dist[u]+w < dist[v]:
+                dist[v] = dist[u]+w
+                heapq.heappush(heap, (dist[v], v))
+    <span class="kw">return</span> dist</pre>
+
+    <div class="tbl"><table><tr><th>Algoritmo</th><th>Complexidade</th><th>Pesos Neg.?</th><th>Fonte</th></tr><tr><td>BFS</td><td>O(V+E)</td><td class="r">❌</td><td>Única</td></tr><tr><td>Dijkstra</td><td>O((V+E)logV)</td><td class="r">❌</td><td>Única</td></tr><tr><td>Bellman-Ford</td><td>O(V·E)</td><td class="g">✓</td><td>Única</td></tr><tr><td>Floyd-Warshall</td><td>O(V³)</td><td class="g">✓</td><td>Todos pares</td></tr><tr><td>A*</td><td>O(E·logV)</td><td class="r">❌</td><td>Única (heurística)</td></tr></table></div>
+  </div></section>
+
+  <!-- ─── APLICAÇÕES ─── -->
+  <section id="s3-aplic"><div class="container fi">
+    <div class="sec-label">08 · Mundo Real</div>
+    <h2>Aplicações de Grafos</h2>
+    <div class="cards"><div class="card"><div class="card-icon" style="background:rgba(108,99,255,.15)">🌐</div><h4>Internet & Roteamento</h4><p>Roteadores são vértices, links são arestas ponderadas. OSPF usa Dijkstra.</p></div><div class="card"><div class="card-icon" style="background:rgba(45,212,191,.15)">👥</div><h4>Redes Sociais</h4><p>Amizades (não-dir.), seguidores (dígrafo). PageRank = eigenvector da matriz.</p></div><div class="card"><div class="card-icon" style="background:rgba(74,222,128,.15)">🗺️</div><h4>GPS</h4><p>Cidades=vértices, rodovias=arestas ponderadas. Dijkstra/A* para rotas.</p></div><div class="card"><div class="card-icon" style="background:rgba(245,158,11,.15)">💻</div><h4>Compiladores</h4><p>Dependências (DAG). Topological sort para ordem de compilação.</p></div></div>
+  </div></section>
+
+  <!-- ─── CONSTRUTOR ─── -->
+  <section id="s3-build"><div class="container fi">
+    <div class="sec-label">09 · Laboratório Interativo</div>
+    <h2>Construtor de Grafos</h2>
+    <p>Crie seu próprio grafo e analise suas propriedades em tempo real.</p>
+    <div class="controls">
+      <button class="btn active" id="btn-add" onclick="setMode('add')">➕ Vértice</button>
+      <button class="btn" id="btn-edge" onclick="setMode('edge')">🔗 Aresta</button>
+      <button class="btn btn-d" id="btn-delete" onclick="setMode('delete')">✕ Deletar</button>
+      <button class="btn" onclick="loadExample()">📐 Exemplo K₆</button>
+      <button class="btn btn-d" onclick="clearGraph()">🗑 Limpar</button>
+      <button class="btn" onclick="checkEulerian()">🔍 Verificar Euler</button>
+    </div>
+    <canvas id="graph-canvas" height="360"></canvas>
+    <div class="stat-grid">
+      <div class="stat-pill"><div class="v" id="stat-v">0</div><div class="l">Vértices</div></div>
+      <div class="stat-pill"><div class="v" id="stat-e">0</div><div class="l">Arestas</div></div>
+      <div class="stat-pill"><div class="v" id="stat-density">0.00</div><div class="l">Densidade</div></div>
+      <div class="stat-pill"><div class="v" id="stat-deg">0.0</div><div class="l">Grau Médio</div></div>
+      <div class="stat-pill"><div class="v" id="stat-comp">0</div><div class="l">Componentes</div></div>
+    </div>
+    <div class="progress-track"><div class="progress-fill" id="density-bar" style="width:0%"></div></div>
+    <div id="euler-result"><div><div class="er-title" id="euler-title"></div><div class="er-desc" id="euler-desc"></div></div></div>
+  </div></section>
+</div><!-- /main-s3 -->
+</div><!-- /s3 -->
+
+<!-- ═══════════════════════════════════════
+     JAVASCRIPT
+═══════════════════════════════════════ -->
+<script>
+// ── NAVIGATION ──
+function openSubject(id) {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById(id).classList.add('active');
+  window.scrollTo(0,0);
+  setTimeout(initFadeIn, 100);
+  // give sidebar correct margin
+  const main = document.getElementById('main-'+id);
+  if(main) main.style.marginLeft = '270px';
+}
+
+function goHome() {
+  document.querySelectorAll('.page').forEach(p => p.classList.remove('active'));
+  document.getElementById('home').classList.add('active');
+  document.getElementById('burger').style.display='none';
+  window.scrollTo(0,0);
+}
+
+// show burger only on subject pages
+document.querySelectorAll('[id^="s"]').forEach(p => {
+  if(p.id.match(/^s[123]$/)) {
+    const obs = new MutationObserver(() => {
+      document.getElementById('burger').style.display = p.classList.contains('active') ? '' : '';
+    });
+    obs.observe(p, {attributes:true,attributeFilter:['class']});
+  }
+});
+
+// ── SIDEBAR ──
+let activeSB = null;
+function toggleSB() {
+  const sbs = document.querySelectorAll('[id^="sidebar-"]');
+  sbs.forEach(sb => sb.classList.toggle('sb-open'));
+}
+function closeSB() {
+  if(window.innerWidth < 860) {
+    document.querySelectorAll('[id^="sidebar-"]').forEach(sb => sb.classList.remove('sb-open'));
+  }
+}
+
+// Add click listeners to sidebar links
+document.querySelectorAll('.sb-link').forEach(link => {
+  link.addEventListener('click', () => closeSB());
+});
+
+function filterSB(input, subject) {
+  const q = input.value.toLowerCase();
+  const nav = document.getElementById('nav-'+subject);
+  nav.querySelectorAll('.sb-link').forEach(el => {
+    el.style.display = el.textContent.toLowerCase().includes(q) ? '' : 'none';
+  });
+  nav.querySelectorAll('.sb-cat').forEach(el => el.style.display = q ? 'none' : '');
+}
+
+// ── PROGRESS & ACTIVE NAV ──
+window.addEventListener('scroll', () => {
+  const pct = scrollY / (document.body.scrollHeight - innerHeight);
+  document.getElementById('progress').style.transform = `scaleX(${pct})`;
+  document.getElementById('backtop').classList.toggle('show', scrollY > 400);
+
+  const activePage = document.querySelector('.page.active:not(#home)');
+  if(!activePage) return;
+  const id = activePage.id;
+  activePage.querySelectorAll('section').forEach(s => {
+    const r = s.getBoundingClientRect();
+    if(r.top <= 90 && r.bottom > 90) {
+      const nav = document.getElementById('nav-'+id);
+      if(nav) {
+        nav.querySelectorAll('.sb-link').forEach(l => l.classList.remove('active'));
+        const a = nav.querySelector(`.sb-link[href="#${s.id}"]`);
+        if(a) a.classList.add('active');
+      }
+    }
+  });
+});
+
+// ── TABS ──
+function tab(btn, group, lang) {
+  document.querySelectorAll(`[id^="${group}-"]`).forEach(p => p.classList.remove('active'));
+  const t = document.getElementById(`${group}-${lang}`);
+  if(t) t.classList.add('active');
+  btn.parentElement.querySelectorAll('.tab-btn').forEach(b => b.classList.remove('active'));
+  btn.classList.add('active');
+}
+
+// ── FADE IN ──
+function initFadeIn() {
+  const obs = new IntersectionObserver(entries => {
+    entries.forEach(e => { if(e.isIntersecting) e.target.classList.add('vis'); });
+  }, {threshold:0.05});
+  document.querySelectorAll('.fi').forEach(el => { if(!el.classList.contains('vis')) obs.observe(el); });
+}
+initFadeIn();
+
+// ── BFS STEPPER ──
+const bfsSteps=[
+  {title:'BFS — Inicialização',desc:'Marcamos o vértice fonte <strong style="color:#fff">s=A</strong> como visitado e adicionamos à fila.',visited:['A'],queue:['A'],current:null},
+  {title:'BFS — Processa A',desc:'Desenfileiramos <strong style="color:#fff">A</strong>. Vizinhos não visitados <strong style="color:#fff">B, C</strong> são enfileirados.',visited:['A','B','C'],queue:['B','C'],current:'A'},
+  {title:'BFS — Processa B',desc:'Desenfileiramos <strong style="color:#fff">B</strong>. Vizinhos não visitados <strong style="color:#fff">D, E</strong> são enfileirados.',visited:['A','B','C','D','E'],queue:['C','D','E'],current:'B'},
+  {title:'BFS — Processa C',desc:'Desenfileiramos <strong style="color:#fff">C</strong>. Vizinho não visitado <strong style="color:#fff">F</strong> é enfileirado.',visited:['A','B','C','D','E','F'],queue:['D','E','F'],current:'C'},
+  {title:'BFS — Processa D, E',desc:'Desenfileiramos <strong style="color:#fff">D</strong> e <strong style="color:#fff">E</strong>. Fila fica só com F.',visited:['A','B','C','D','E','F'],queue:['F'],current:'D'},
+  {title:'BFS — Concluído!',desc:'Todos os <strong style="color:#fff">6 vértices</strong> visitados. Ordem: A→B→C→D→E→F. Distâncias mínimas garantidas!',visited:['A','B','C','D','E','F'],queue:[],current:'F'}
+];
+const pos={A:{x:80,y:90},B:{x:200,y:40},C:{x:200,y:140},D:{x:320,y:20},E:{x:320,y:80},F:{x:320,y:140}};
+const edgesB=[['A','B'],['A','C'],['B','D'],['B','E'],['C','F']];
+let bfsIdx=0;
+
+function drawBFS(){
+  const s=bfsSteps[bfsIdx];
+  const svg=document.getElementById('bfs-svg'); if(!svg) return;
+  let h='';
+  edgesB.forEach(([a,b])=>{ h+=`<line x1="${pos[a].x}" y1="${pos[a].y}" x2="${pos[b].x}" y2="${pos[b].y}" stroke="rgba(108,99,255,0.35)" stroke-width="1.5"/>`; });
+  Object.entries(pos).forEach(([n,{x,y}])=>{
+    const vis=s.visited.includes(n), cur=s.current===n, inQ=s.queue.includes(n);
+    const col=cur?'#f59e0b':inQ?'#2dd4bf':vis?'#6c63ff':'#3a3a55';
+    h+=`<circle cx="${x}" cy="${y}" r="18" fill="${vis?col+'22':'#1e1e24'}" stroke="${col}" stroke-width="${cur?2.5:1.5}"/>`;
+    h+=`<text x="${x}" y="${y+5}" text-anchor="middle" fill="#fff" font-size="13" font-family="Inter" font-weight="600">${n}</text>`;
+  });
+  if(s.queue.length) h+=`<rect x="370" y="16" width="115" height="26" rx="6" fill="#1e1e24" stroke="#3a3a55"/><text x="427" y="34" text-anchor="middle" fill="#a78bfa" font-size="11" font-family="DM Mono,monospace">Fila:[${s.queue.join(',')}]</text>`;
+  svg.innerHTML=h;
+  document.getElementById('bfs-title').textContent=s.title;
+  document.getElementById('bfs-desc').innerHTML=s.desc;
+  document.getElementById('bfs-counter').textContent=`${bfsIdx+1}/${bfsSteps.length}`;
+  const dots=document.getElementById('bfs-dots');
+  dots.innerHTML=bfsSteps.map((_,i)=>`<div class="dot ${i<bfsIdx?'done':i===bfsIdx?'active':''}"></div>`).join('');
+}
+function stepBFS(d){
+  bfsIdx=Math.max(0,Math.min(bfsSteps.length-1,bfsIdx+d));
+  drawBFS();
+  document.getElementById('bfs-prev').disabled=bfsIdx===0;
+  document.getElementById('bfs-next').disabled=bfsIdx===bfsSteps.length-1;
+}
+function resetBFS(){bfsIdx=0;drawBFS();}
+setTimeout(drawBFS,200);
+
+// ── GRAPH BUILDER ──
+const canvas=document.getElementById('graph-canvas');
+let ctx,nodes=[],edges=[],mode='add',selected=null,nodeId=0,dpr=window.devicePixelRatio||1;
+
+function initCanvas(){
+  if(!canvas) return;
+  ctx=canvas.getContext('2d');
+  resizeCanvas();
+  window.addEventListener('resize',resizeCanvas);
+}
+
+function resizeCanvas(){
+  if(!canvas||!ctx) return;
+  const rect=canvas.parentElement.getBoundingClientRect();
+  const w=Math.max(rect.width-80,300);
+  canvas.style.width=w+'px'; canvas.style.height='360px';
+  canvas.width=w*dpr; canvas.height=360*dpr;
+  ctx.setTransform(dpr,0,0,dpr,0,0);
+  drawGraph();
+}
+
+function setMode(m){
+  mode=m; selected=null;
+  ['add','edge','delete'].forEach(b=>{const el=document.getElementById('btn-'+b); if(el) el.classList.toggle('active',b===m);});
+  if(canvas) canvas.style.cursor=m==='add'?'crosshair':m==='delete'?'not-allowed':'pointer';
+  drawGraph();
+}
+
+function getPos(e){
+  const r=canvas.getBoundingClientRect(); const t=e.touches?e.touches[0]:e;
+  return{x:t.clientX-r.left,y:t.clientY-r.top};
+}
+function hitNode(x,y){return nodes.find(n=>Math.hypot(n.x-x,n.y-y)<20);}
+
+if(canvas) canvas.addEventListener('click',e=>{
+  const{x,y}=getPos(e);
+  if(mode==='add'){
+    if(!hitNode(x,y)){nodes.push({id:nodeId++,x,y,label:String.fromCharCode(65+(nodes.length%26))});updateStats();drawGraph();}
+  } else if(mode==='edge'){
+    const n=hitNode(x,y); if(!n) return;
+    if(!selected){selected=n;drawGraph();}
+    else if(selected.id!==n.id){
+      const ex=edges.some(e=>(e.a===selected.id&&e.b===n.id)||(e.a===n.id&&e.b===selected.id));
+      if(!ex) edges.push({a:selected.id,b:n.id});
+      selected=null;updateStats();drawGraph();
+    } else{selected=null;drawGraph();}
+  } else if(mode==='delete'){
+    const n=hitNode(x,y);
+    if(n){edges=edges.filter(e=>e.a!==n.id&&e.b!==n.id);nodes=nodes.filter(nd=>nd.id!==n.id);}
+    else{edges=edges.filter(e=>{const na=nodes.find(n=>n.id===e.a),nb=nodes.find(n=>n.id===e.b);if(!na||!nb)return false;const d=Math.abs((nb.y-na.y)*x-(nb.x-na.x)*y+nb.x*na.y-nb.y*na.x)/Math.hypot(nb.x-na.x,nb.y-na.y);return!(d<12&&x>=Math.min(na.x,nb.x)-5&&x<=Math.max(na.x,nb.x)+5&&y>=Math.min(na.y,nb.y)-5&&y<=Math.max(na.y,nb.y)+5);});}
+    updateStats();drawGraph();
+  }
+});
+
+function drawGraph(){
+  if(!ctx) return;
+  const W=canvas.width/dpr,H=canvas.height/dpr;
+  ctx.clearRect(0,0,W,H);
+  ctx.fillStyle='#16161a';ctx.beginPath();ctx.roundRect(0,0,W,H,12);ctx.fill();
+  ctx.fillStyle='rgba(255,255,255,0.03)';
+  for(let gx=30;gx<W;gx+=30)for(let gy=30;gy<H;gy+=30){ctx.beginPath();ctx.arc(gx,gy,1,0,Math.PI*2);ctx.fill();}
+  edges.forEach(e=>{const na=nodes.find(n=>n.id===e.a),nb=nodes.find(n=>n.id===e.b);if(!na||!nb)return;ctx.beginPath();ctx.moveTo(na.x,na.y);ctx.lineTo(nb.x,nb.y);ctx.strokeStyle='rgba(108,99,255,0.5)';ctx.lineWidth=1.5;ctx.stroke();});
+  nodes.forEach(n=>{const isSel=selected&&selected.id===n.id,col=isSel?'#f59e0b':'#6c63ff';ctx.beginPath();ctx.arc(n.x,n.y,20,0,Math.PI*2);ctx.fillStyle=isSel?'rgba(245,158,11,0.2)':'rgba(108,99,255,0.15)';ctx.fill();ctx.strokeStyle=col;ctx.lineWidth=isSel?2.5:1.5;ctx.stroke();ctx.fillStyle='#fff';ctx.font='600 13px Inter';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText(n.label,n.x,n.y);const deg=edges.filter(e=>e.a===n.id||e.b===n.id).length;if(deg>0){ctx.fillStyle='#2dd4bf';ctx.font='11px DM Mono,monospace';ctx.fillText(deg,n.x+14,n.y-14);}});
+  if(!nodes.length){ctx.fillStyle='rgba(138,136,128,0.4)';ctx.font='14px Inter';ctx.textAlign='center';ctx.textBaseline='middle';ctx.fillText('Clique aqui para adicionar vértices',W/2,H/2);}
+}
+
+function updateStats(){
+  const n=nodes.length,m=edges.length,maxE=n*(n-1)/2,dens=maxE>0?m/maxE:0,avgDeg=n>0?((m*2)/n).toFixed(1):'0.0';
+  ['stat-v','stat-e','stat-density','stat-deg','stat-comp'].forEach((id,i)=>{const el=document.getElementById(id);if(el)el.textContent=[n,m,dens.toFixed(2),avgDeg,countComponents()][i];});
+  const db=document.getElementById('density-bar');if(db)db.style.width=(dens*100).toFixed(0)+'%';
+  const er=document.getElementById('euler-result');if(er)er.style.display='none';
+}
+
+function countComponents(){
+  if(!nodes.length)return 0;const vis=new Set();let c=0;
+  function dfs(id){vis.add(id);edges.forEach(e=>{if(e.a===id&&!vis.has(e.b))dfs(e.b);if(e.b===id&&!vis.has(e.a))dfs(e.a);});}
+  nodes.forEach(n=>{if(!vis.has(n.id)){dfs(n.id);c++;}});return c;
+}
+
+function checkEulerian(){
+  const res=document.getElementById('euler-result');res.style.display='flex';
+  if(nodes.length<2){document.getElementById('euler-title').textContent='Insuficiente';document.getElementById('euler-desc').textContent='Adicione ao menos 2 vértices.';return;}
+  const odd=nodes.filter(n=>edges.filter(e=>e.a===n.id||e.b===n.id).length%2===1);
+  const comp=countComponents();
+  if(comp>1){document.getElementById('euler-title').textContent='Grafo desconexo';document.getElementById('euler-desc').textContent=`${comp} componentes. Precisa ser conexo.`;}
+  else if(odd.length===0){document.getElementById('euler-title').textContent='✓ Grafo Euleriano!';document.getElementById('euler-desc').textContent=`Todos os ${nodes.length} vértices têm grau par → existe circuito euleriano.`;}
+  else if(odd.length===2){document.getElementById('euler-title').textContent='↗ Trilha Euleriana (não circuito)';document.getElementById('euler-desc').textContent=`Exatamente 2 vértices (${odd.map(n=>n.label).join(', ')}) têm grau ímpar.`;}
+  else{document.getElementById('euler-title').textContent='✗ Não é euleriano';document.getElementById('euler-desc').textContent=`${odd.length} vértices (${odd.map(n=>n.label).join(', ')}) têm grau ímpar.`;}
+}
+
+function clearGraph(){nodes=[];edges=[];selected=null;nodeId=0;updateStats();drawGraph();}
+
+function loadExample(){
+  clearGraph();
+  if(!canvas) return;
+  const W=canvas.width/dpr,H=canvas.height/dpr,cx=W/2,cy=H/2,r=Math.min(W,H)*0.3;
+  ['A','B','C','D','E','F'].forEach((l,i)=>{const a=(2*Math.PI*i/6)-Math.PI/2;nodes.push({id:i,x:cx+r*Math.cos(a),y:cy+r*Math.sin(a),label:l});nodeId++;});
+  [[0,1],[1,2],[2,3],[3,4],[4,5],[5,0],[0,3],[1,4],[2,5]].forEach(([a,b])=>edges.push({a,b}));
+  updateStats();drawGraph();
+}
+
+// Init canvas when subject 3 opens (lazy)
+const origOpen = openSubject;
+window.openSubject = function(id) {
+  origOpen(id);
+  if(id==='s3') { setTimeout(initCanvas, 50); setTimeout(drawBFS, 100); }
+};
+</script>
+</body>
+</html>
